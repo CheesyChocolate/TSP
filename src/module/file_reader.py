@@ -6,9 +6,9 @@
 #   - 'TYPE': type of problem (TSP)
 #   - 'DIMENSION': number of cities
 #   - 'EDGE_WEIGHT_TYPE': type of distance between cities (EUC_2D or ATT)
-#   - 'NODE_COORD_SECTION': list of coordinates of cities
-#       - each element of the list is a list with the following elements:
-#           - city ID   x coordinate  y coordinate
+#   - 'NODE_COORD_SECTION': a dictionary with the coordinates of each city
+#       - key: city id
+#       - value: tuple with the coordinates (x, y)
 
 def read_tsp_file(file_path):
     tsp_data = {
@@ -17,7 +17,7 @@ def read_tsp_file(file_path):
         'TYPE': '',
         'DIMENSION': 0,
         'EDGE_WEIGHT_TYPE': '',
-        'NODE_COORD_SECTION': []
+        'NODE_COORD_SECTION': {}
     }
 
     with open(file_path, 'r') as file:
@@ -45,6 +45,6 @@ def read_tsp_file(file_path):
                 city_id = int(city_data[0])
                 x = float(city_data[1])
                 y = float(city_data[2])
-                tsp_data['NODE_COORD_SECTION'].append([city_id, x, y])
+                tsp_data['NODE_COORD_SECTION'][city_id] = (x, y)
 
     return tsp_data
