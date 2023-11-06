@@ -18,7 +18,8 @@ class TestSolutionGenerator(unittest.TestCase):
 
         num_cities = len(node_coords)
         # Ensure the solution has the correct number of cities
-        self.assertEqual(len(random_solution), num_cities)
+        # +1 for the starting city that being repeated at the end
+        self.assertEqual(len(random_solution), num_cities + 1)
         # Ensure all city IDs are included in the solution
         self.assertTrue(all(city_id in random_solution for city_id in node_coords.keys()))
         # Ensure all city IDs in the solution are unique

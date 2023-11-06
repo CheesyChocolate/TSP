@@ -2,13 +2,15 @@
 # suppoted algorithms:
 #   - random solutions
 
-
 import random
 
 
-# @param node_coords: Type dict (NODE_COORD_SECTION)
+# @param tsp_data: Type dict (NODE_COORD_SECTION)
 # @return: Type list
-def generate_random_solution(node_coords):
-    city_ids = list(node_coords.keys())  # Extract city IDs from the dictionary
-    random.shuffle(city_ids)  # Shuffle the city IDs randomly
-    return city_ids
+def generate_random_solution(tsp_data):
+    cities = list(tsp_data.keys())  # Extract city IDs from the dictionary keys
+    cities.remove(1)  # Remove key 1 temporarily to ensure it's not in the middle of the solution
+    random.shuffle(cities)
+    # Ensure key 1 appears both at the beginning and the end of the solution
+    solution = [1] + cities + [1]
+    return solution
