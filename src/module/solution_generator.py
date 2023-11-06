@@ -2,17 +2,13 @@
 # suppoted algorithms:
 #   - random solutions
 
+
 import random
 
 
-# @param tsp_data: Type dict
-# @return: Type 2D list
-def generate_random_solution(tsp_data):
-    cities = tsp_data['NODE_COORD_SECTION']
-    # Generate a random permutation of city indices excluding the first city (starting point)
-    solution = [city[0] for city in cities[1:]]
-    random.shuffle(solution)
-    # Add the starting city back to the beginning of the solution
-    solution.insert(0, cities[0][0])
-
-    return [solution]
+# @param node_coords: Type dict (NODE_COORD_SECTION)
+# @return: Type list
+def generate_random_solution(node_coords):
+    city_ids = list(node_coords.keys())  # Extract city IDs from the dictionary
+    random.shuffle(city_ids)  # Shuffle the city IDs randomly
+    return city_ids
