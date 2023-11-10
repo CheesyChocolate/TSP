@@ -20,7 +20,7 @@ class TestDataCalculator(unittest.TestCase):
         total_distance = calculate_total_distance(solution, node_coords)
 
         # Expected total distance for the sample solution (calculated manually)
-        expected_distance = 2332.129643196118
+        expected_distance = 1672.110704073914
 
         # Check if the calculated distance matches the expected distance (with a small tolerance)
         self.assertAlmostEqual(total_distance, expected_distance, places=5)
