@@ -18,12 +18,9 @@ def calculate_distance(point1, point2):
 # @return: Type float
 def calculate_total_distance(solution, node_coords):
     total_distance = 0.0
-    num_cities = len(solution)
 
     # Calculate total distance by summing distances between consecutive cities in the solution
-    for i in range(num_cities):
-        current_city = solution[i]
-        next_city = solution[(i + 1) % num_cities]  # Connect back to the first city for a complete tour
-        total_distance += calculate_distance(node_coords[current_city], node_coords[next_city])
+    for i in range(len(solution) - 1):
+        total_distance += calculate_distance(node_coords[solution[i]], node_coords[solution[i+1]])
 
     return total_distance
