@@ -1,7 +1,7 @@
 import sys
 
 from module.file_reader import read_tsp_file
-from module.chromosome_generator import generate_random_chromosome
+from module.genetic_operations import generate_random_chromosome
 from module.data_calculator import calculate_total_distance
 from module.visualization import plot_tsp_cities
 

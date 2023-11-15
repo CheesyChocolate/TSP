@@ -1,5 +1,5 @@
 import unittest
-from src.module.chromosome_generator import generate_random_chromosome
+from src.module.genetic_operations import generate_random_chromosome
 
 
 class TestSolutionGenerator(unittest.TestCase):
