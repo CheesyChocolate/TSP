@@ -14,20 +14,20 @@ class TestVisualization(unittest.TestCase):
             5: (475.0, 475.0)
         }
 
-        # Sample solution (city IDs in a specific order)
-        self.solution = [1, 3, 2, 5, 4]
+        # Sample chromosome (city IDs in a specific order)
+        self.chromosome = [1, 3, 2, 5, 4]
 
     @patch('src.module.visualization.plt.show')  # Mocking plt.show() method
-    def test_plot_tsp_cities_with_solution(self, mock_show):
-        # Test plotting cities with a solution
-        plot_tsp_cities(self.tsp_data, self.solution)
+    def test_plot_tsp_cities_with_chromosome(self, mock_show):
+        # Test plotting cities with a chromosome
+        plot_tsp_cities(self.tsp_data, self.chromosome)
 
         # Assert that plt.show() was called once
         mock_show.assert_called_once()
 
     @patch('src.module.visualization.plt.show')  # Mocking plt.show() method
-    def test_plot_tsp_cities_without_solution(self, mock_show):
-        # Test plotting cities without a solution
+    def test_plot_tsp_cities_without_chromosome(self, mock_show):
+        # Test plotting cities without a chromosome
         plot_tsp_cities(self.tsp_data)
 
         # Assert that plt.show() was called once

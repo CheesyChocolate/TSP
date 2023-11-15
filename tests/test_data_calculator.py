@@ -13,13 +13,13 @@ class TestDataCalculator(unittest.TestCase):
             5: (475.0, 475.0)
         }
 
-        # Sample solution (city IDs in a random order)
-        solution = [3, 1, 5, 2, 4]
+        # Sample chromosome (city IDs in a random order)
+        chromosome = [3, 1, 5, 2, 4]
 
-        # Calculate the total distance for the sample solution
-        total_distance = calculate_total_distance(solution, node_coords)
+        # Calculate the total distance for the sample chromosome
+        total_distance = calculate_total_distance(chromosome, node_coords)
 
-        # Expected total distance for the sample solution (calculated manually)
+        # Expected total distance for the sample chromosome (calculated manually)
         expected_distance = 1672.110704073914
 
         # Check if the calculated distance matches the expected distance (with a small tolerance)

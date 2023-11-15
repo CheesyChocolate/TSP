@@ -1,7 +1,7 @@
 import sys
 
 from module.file_reader import read_tsp_file
-from module.solution_generator import generate_random_solution
+from module.chromosome_generator import generate_random_chromosome
 from module.data_calculator import calculate_total_distance
 from module.visualization import plot_tsp_cities
 
@@ -18,34 +18,34 @@ def main():
     # Read TSP data from the file
     tsp_data = read_tsp_file(tsp_file_path)
 
-    # Plot TSP nodes before generating random solution
+    # Plot TSP nodes before generating random chromosome
     plot_tsp_cities(tsp_data['NODE_COORD_SECTION'])
 
-    # Generate 20 random solutions and calculate their total distances
-    solutions = []
+    # Generate 20 random chromosomes and calculate their total distances
+    chromosomes = []
     for _ in range(20):
-        random_solution = generate_random_solution(tsp_data['NODE_COORD_SECTION'])
-        total_distance = calculate_total_distance(random_solution, tsp_data['NODE_COORD_SECTION'])
-        solutions.append((random_solution, total_distance))
+        random_chromosome = generate_random_chromosome(tsp_data['NODE_COORD_SECTION'])
+        total_distance = calculate_total_distance(random_chromosome, tsp_data['NODE_COORD_SECTION'])
+        chromosomes.append((random_chromosome, total_distance))
 
-    # Sort solutions based on total distance and find the best two solutions
-    solutions.sort(key=lambda x: x[1])
-    best_solution_1, distance_1 = solutions[0]
-    best_solution_2, distance_2 = solutions[1]
+    # Sort chromosomes based on total distance and find the best two chromosomes
+    chromosomes.sort(key=lambda x: x[1])
+    best_chromosome_1, distance_1 = chromosomes[0]
+    best_chromosome_2, distance_2 = chromosomes[1]
 
-    # Print the best two solutions and their total distances
+    # Print the best two chromosomes and their total distances
     print("\nBest Solution 1:")
-    print("Path:", best_solution_1)
+    print("Path:", best_chromosome_1)
     print("Total Distance:", distance_1)
 
     print("\nBest Solution 2:")
-    print("Path:", best_solution_2)
+    print("Path:", best_chromosome_2)
     print("Total Distance:", distance_2)
 
-    # Plot the best two solutions
-    print("\nPlotting the best two solutions:")
-    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_solution_1)
-    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_solution_2)
+    # Plot the best two chromosomes
+    print("\nPlotting the best two chromosomes:")
+    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_chromosome_1)
+    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_chromosome_2)
 
 
 if __name__ == "__main__":

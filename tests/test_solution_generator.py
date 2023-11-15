@@ -1,9 +1,9 @@
 import unittest
-from src.module.solution_generator import generate_random_solution
+from src.module.chromosome_generator import generate_random_chromosome
 
 
 class TestSolutionGenerator(unittest.TestCase):
-    def test_generate_random_solution(self):
+    def test_generate_random_chromosome(self):
         # Sample NODE_COORD_SECTION dictionary
         node_coords = {
             1: (565.0, 575.0),
@@ -13,17 +13,17 @@ class TestSolutionGenerator(unittest.TestCase):
             5: (475.0, 475.0)
         }
 
-        # Generate a random solution
-        random_solution = generate_random_solution(node_coords)
+        # Generate a random chromosome
+        random_chromosome = generate_random_chromosome(node_coords)
 
         num_cities = len(node_coords)
-        # Ensure the solution has the correct number of cities
+        # Ensure the chromosome has the correct number of cities
         # +1 for the starting city that being repeated at the end
-        self.assertEqual(len(random_solution), num_cities + 1)
-        # Ensure all city IDs are included in the solution
-        self.assertTrue(all(city_id in random_solution for city_id in node_coords.keys()))
-        # Ensure all city IDs in the solution are unique
-        self.assertEqual(len(set(random_solution)), num_cities)
+        self.assertEqual(len(random_chromosome), num_cities + 1)
+        # Ensure all city IDs are included in the chromosome
+        self.assertTrue(all(city_id in random_chromosome for city_id in node_coords.keys()))
+        # Ensure all city IDs in the chromosome are unique
+        self.assertEqual(len(set(random_chromosome)), num_cities)
 
 
 if __name__ == '__main__':
