@@ -1,7 +1,7 @@
 # This module contains functions for generating chromosome to the TSP problem.
 # suppoted algorithms:
 #   - random chromosome
-#   - sort and select top solutions
+#   - rank selection
 
 import random
 from .data_calculator import calculate_total_distance
@@ -22,7 +22,7 @@ def generate_random_chromosome(tsp_data):
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
 # @param percentage: Type Int
 # @return: new_chromosomes: Type 2D list
-def sort_and_select_top_solutions(chromosomes, tsp_data, percentage):
+def rank_selection(chromosomes, tsp_data, percentage):
     # Calculate fitness scores for each chromosome
     fitness_scores = [
         calculate_total_distance(chromosome, tsp_data['NODE_COORD_SECTION'])

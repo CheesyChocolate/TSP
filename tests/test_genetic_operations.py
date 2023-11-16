@@ -1,6 +1,6 @@
 import unittest
 from src.module.genetic_operations import generate_random_chromosome
-from src.module.genetic_operations import sort_and_select_top_solutions
+from src.module.genetic_operations import rank_selection
 
 
 class TestGeneticOperations(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestGeneticOperations(unittest.TestCase):
         percentage_to_select = 10  # Change this to your desired percentage
 
         # Test the function
-        top_solutions = sort_and_select_top_solutions(chromosomes, tsp_data, percentage_to_select)
+        top_solutions = rank_selection(chromosomes, tsp_data, percentage_to_select)
 
         # Validate the output
         expected_num_selected = len(chromosomes) * percentage_to_select // 100
