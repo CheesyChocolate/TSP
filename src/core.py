@@ -2,7 +2,9 @@ import sys
 
 from module.file_reader import read_tsp_file
 from module.genetic_operations import generate_random_chromosome
-from module.data_calculator import calculate_total_distance
+from module.genetic_operations import rank_selection
+from module.genetic_operations import roulette_selection
+from module.data_calculator import fitness
 from module.visualization import plot_tsp_cities
 
 
@@ -23,30 +25,29 @@ def main():
 
     # Generate 20 random chromosomes and calculate their total distances
     chromosomes = []
-    for _ in range(20):
+    for _ in range(100):
         random_chromosome = generate_random_chromosome(tsp_data['NODE_COORD_SECTION'])
-        total_distance = calculate_total_distance(random_chromosome, tsp_data['NODE_COORD_SECTION'])
-        chromosomes.append((random_chromosome, total_distance))
+        chromosomes.append(random_chromosome)
 
-    # Sort chromosomes based on total distance and find the best two chromosomes
-    chromosomes.sort(key=lambda x: x[1])
-    best_chromosome_1, distance_1 = chromosomes[0]
-    best_chromosome_2, distance_2 = chromosomes[1]
+    # Find the 1 percent best chromosoms using tournament selection
+    best_chromosomes = rank_selection(chromosomes, tsp_data, 1)
 
-    # Print the best two chromosomes and their total distances
-    print("\nBest Solution 1:")
-    print("Path:", best_chromosome_1)
-    print("Total Distance:", distance_1)
+    # Print the best chromosomes and their total distances
+    for i in range(len(best_chromosomes)):
+        print("\nBest Solution", i + 1)
+        print("Path:", best_chromosomes[i])
+        print("Total Distance:", fitness(best_chromosomes[i], tsp_data['NODE_COORD_SECTION']))
+        # plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_chromosomes[i])
 
-    print("\nBest Solution 2:")
-    print("Path:", best_chromosome_2)
-    print("Total Distance:", distance_2)
+    # find 5 chromosomes using roulette wheel selection
+    selected_chromosomes = roulette_selection(chromosomes, tsp_data, 5)
 
-    # Plot the best two chromosomes
-    print("\nPlotting the best two chromosomes:")
-    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_chromosome_1)
-    plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], best_chromosome_2)
-
+    # Print the selected chromosomes and their total distances
+    for i in range(len(selected_chromosomes)):
+        print("\nSelected Solution", i + 1)
+        print("Path:", selected_chromosomes[i])
+        print("Total Distance:", fitness(selected_chromosomes[i], tsp_data['NODE_COORD_SECTION']))
+        # plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], selected_chromosomes[i])
 
 if __name__ == "__main__":
     main()
