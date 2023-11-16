@@ -3,6 +3,7 @@
 #   - random chromosome
 #   - rank selection
 #   - roulette wheel selection
+#   - tournament selection
 
 import random
 from .data_calculator import fitness
@@ -78,5 +79,31 @@ def roulette_selection(chromosomes, tsp_data, num_selected):
             if rand_num <= cumulative_prob:
                 selected_chromosomes.append(chromosomes[i])
                 break
+
+    return selected_chromosomes
+
+
+# select chromosomes based on tournament selection
+# @param chromosomes: Type 2D list (chromosome: Type list)
+# @param tsp_data: Type dict (NODE_COORD_SECTION)
+# @param num_selected: Type Int
+# @param tournament_size: Type Int
+def tournament_selection(chromosomes, tsp_data, num_selected, tournament_size=3):
+    selected_chromosomes = []
+
+    while len(selected_chromosomes) < num_selected:
+        # Randomly select 'tournament_size' chromosomes for the tournament
+        tournament_contestants = random.sample(chromosomes, tournament_size)
+
+        # Calculate fitness scores for tournament contestants
+        contestant_fitness = [
+            fitness(contestant, tsp_data['NODE_COORD_SECTION'])
+            for contestant in tournament_contestants
+        ]
+
+        # Select the best contestant (chromosome with the lowest fitness)
+        best_contestant = tournament_contestants[contestant_fitness.index(min(contestant_fitness))]
+
+        selected_chromosomes.append(best_contestant)
 
     return selected_chromosomes
