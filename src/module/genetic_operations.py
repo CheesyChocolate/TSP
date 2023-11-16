@@ -4,7 +4,7 @@
 #   - rank selection
 
 import random
-from .data_calculator import calculate_total_distance
+from .data_calculator import fitness
 
 
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
@@ -25,7 +25,7 @@ def generate_random_chromosome(tsp_data):
 def rank_selection(chromosomes, tsp_data, percentage):
     # Calculate fitness scores for each chromosome
     fitness_scores = [
-        calculate_total_distance(chromosome, tsp_data['NODE_COORD_SECTION'])
+        fitness(chromosome, tsp_data['NODE_COORD_SECTION'])
         for chromosome in chromosomes
     ]
 

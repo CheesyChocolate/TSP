@@ -1,5 +1,5 @@
 import unittest
-from src.module.data_calculator import calculate_total_distance
+from src.module.data_calculator import fitness
 
 
 class TestDataCalculator(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestDataCalculator(unittest.TestCase):
         chromosome = [3, 1, 5, 2, 4]
 
         # Calculate the total distance for the sample chromosome
-        total_distance = calculate_total_distance(chromosome, node_coords)
+        total_distance = fitness(chromosome, node_coords)
 
         # Expected total distance for the sample chromosome (calculated manually)
         expected_distance = 1672.110704073914

@@ -2,7 +2,7 @@
 # the data in the TSP problem
 # Implemented functions:
 #   calculate_distance(point1, point2)
-#   calculate_total_distance(chromosome, node_coords)
+#   fitness(chromosome, node_coords)
 
 import math
 
@@ -16,7 +16,7 @@ def calculate_distance(point1, point2):
 # @param chromosome: Type list
 # @param node_coords: Type dict (NODE_COORD_SECTION)
 # @return: Type float
-def calculate_total_distance(chromosome, node_coords):
+def fitness(chromosome, node_coords):
     total_distance = 0.0
 
     # Calculate total distance by summing distances between consecutive cities in the chromosome
