@@ -4,6 +4,7 @@ from module.file_reader import read_tsp_file
 from module.genetic_operations import generate_random_chromosome
 from module.genetic_operations import rank_selection
 from module.genetic_operations import roulette_selection
+from module.genetic_operations import tournament_selection
 from module.data_calculator import fitness
 from module.visualization import plot_tsp_cities
 
@@ -41,6 +42,16 @@ def main():
 
     # find 5 chromosomes using roulette wheel selection
     selected_chromosomes = roulette_selection(chromosomes, tsp_data, 5)
+
+    # Print the selected chromosomes and their total distances
+    for i in range(len(selected_chromosomes)):
+        print("\nSelected Solution", i + 1)
+        print("Path:", selected_chromosomes[i])
+        print("Total Distance:", fitness(selected_chromosomes[i], tsp_data['NODE_COORD_SECTION']))
+        # plot_tsp_cities(tsp_data['NODE_COORD_SECTION'], selected_chromosomes[i])
+
+    # find 5 chromosomes using tournament selection
+    selected_chromosomes = tournament_selection(chromosomes, tsp_data, 5)
 
     # Print the selected chromosomes and their total distances
     for i in range(len(selected_chromosomes)):
