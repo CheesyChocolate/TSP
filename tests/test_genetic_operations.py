@@ -1,6 +1,7 @@
 import unittest
 from src.module.genetic_operations import generate_random_chromosome
 from src.module.genetic_operations import rank_selection
+from src.module.genetic_operations import roulette_selection
 
 
 class TestGeneticOperations(unittest.TestCase):
