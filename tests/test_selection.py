@@ -1,34 +1,12 @@
 import unittest
-from src.module.genetic_operations import generate_random_chromosome
-from src.module.genetic_operations import rank_selection
-from src.module.genetic_operations import roulette_selection
-from src.module.genetic_operations import tournament_selection
+from src.module.selection import rank_selection
+from src.module.selection import roulette_selection
+from src.module.selection import tournament_selection
 
 
 class TestGeneticOperations(unittest.TestCase):
-    def test_generate_random_chromosome(self):
-        # Sample NODE_COORD_SECTION dictionary
-        node_coords = {
-            1: (565.0, 575.0),
-            2: (25.0, 185.0),
-            3: (345.0, 750.0),
-            4: (745.0, 225.0),
-            5: (475.0, 475.0)
-        }
 
-        # Generate a random chromosome
-        random_chromosome = generate_random_chromosome(node_coords)
-
-        num_cities = len(node_coords)
-        # Ensure the chromosome has the correct number of cities
-        # +1 for the starting city that being repeated at the end
-        self.assertEqual(len(random_chromosome), num_cities + 1)
-        # Ensure all city IDs are included in the chromosome
-        self.assertTrue(all(city_id in random_chromosome for city_id in node_coords.keys()))
-        # Ensure all city IDs in the chromosome are unique
-        self.assertEqual(len(set(random_chromosome)), num_cities)
-
-    def test_sort_and_select_top_solutions(self):
+    def test_rank_selection(self):
         # Mocking chromosomes and tsp_data
         chromosomes = [
             [1, 2, 3, 4, 5],

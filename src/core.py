@@ -1,10 +1,10 @@
 import sys
 
 from module.file_reader import read_tsp_file
-from module.genetic_operations import generate_random_chromosome
-from module.genetic_operations import rank_selection
-from module.genetic_operations import roulette_selection
-from module.genetic_operations import tournament_selection
+from module.mutation import generate_random_chromosome
+from module.selection import rank_selection
+from module.selection import roulette_selection
+from module.selection import tournament_selection
 from module.data_calculator import fitness
 from module.visualization import plot_tsp_cities
 
