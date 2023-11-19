@@ -6,17 +6,19 @@
 import random
 
 
+from .data_calculator import trim
+from .data_calculator import untrim
+
+
 # Order crossover
 # this function heavily relies on the fact that the first and last genes of a chromosome are always '1'
 # @param parent1: Type list
 # @param parent2: Type list
-# @return child1: Type list, Type list
+# @return child1: Type list
+# @return child2: Type list
 def order_crossover(parent1, parent2):
-    # Temporarily remove '1's from parents
-    p1_start, p1_end = parent1[0], parent1[-1]
-    p2_start, p2_end = parent2[0], parent2[-1]
-    parent1 = parent1[1:-1]
-    parent2 = parent2[1:-1]
+    parent1 = trim(parent1)
+    parent2 = trim(parent2)
 
     # Choose two random crossover points
     point1, point2 = sorted(random.sample(range(len(parent1)), 2))
@@ -43,10 +45,8 @@ def order_crossover(parent1, parent2):
             child2[idx % len(parent2)] = gene
             idx += 1
 
-    # Reinsert '1's at the start and end of children
-    child1.insert(0, p1_start)
-    child1.append(p1_end)
-    child2.insert(0, p2_start)
-    child2.append(p2_end)
+    # Add the first and last genes to the children
+    child1 = untrim(child1)
+    child2 = untrim(child2)
 
     return child1, child2
