@@ -3,6 +3,8 @@
 # Implemented functions:
 #   calculate_distance(point1, point2)
 #   fitness(chromosome, node_coords)
+#   trim(chromosome)
+#   untrim(chromosome, trimed_gene=1)
 
 import math
 
@@ -24,3 +26,20 @@ def fitness(chromosome, node_coords):
         total_distance += calculate_distance(node_coords[chromosome[i]], node_coords[chromosome[i+1]])
 
     return total_distance
+
+
+# Trim the chromosome by removing the first and last gene if they are the same
+# @param chromosome: Type list
+# @return: Type list
+def trim(chromosome):
+    if chromosome[0] == chromosome[-1]:
+        return chromosome[1:-1]
+    return chromosome
+
+
+# Add the starting gene to the beginning and end of the chromosome
+# @param chromosome: Type list
+# @param trimed_gene: Type int
+# @return: Type list
+def untrim(chromosome, trimed_gene=1):
+    return [trimed_gene] + chromosome + [trimed_gene]
