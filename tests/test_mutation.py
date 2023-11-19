@@ -1,6 +1,7 @@
 import unittest
 
 from src.module.mutation import generate_random_chromosome
+from src.module.mutation import swap_mutation
 
 
 class TestMutation(unittest.TestCase):
@@ -26,6 +27,23 @@ class TestMutation(unittest.TestCase):
         self.assertTrue(all(city_id in random_chromosome for city_id in node_coords.keys()))
         # Ensure all city IDs in the chromosome are unique
         self.assertEqual(len(set(random_chromosome)), num_cities)
+
+    def test_swap_mutation(self):
+        # Test swap mutation on a chromosome with start and end genes the same
+        chromosome = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
+        mutated_chromosome = swap_mutation(chromosome)
+
+        # Ensure the chromosome length remains the same
+        self.assertEqual(len(mutated_chromosome), len(chromosome))
+
+        # Ensure start and end genes remain the same if they were identical
+        if chromosome[0] == chromosome[-1]:
+            self.assertEqual(mutated_chromosome[0], chromosome[0])
+            self.assertEqual(mutated_chromosome[-1], chromosome[-1])
+
+        # Ensure that the rest of the genes have been shuffled properly
+        self.assertNotEqual(mutated_chromosome[1:-1], chromosome[1:-1])
+        # Additional assertions based on specific scenarios or requirements
 
 
 if __name__ == '__main__':
