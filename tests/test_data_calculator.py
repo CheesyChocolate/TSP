@@ -1,5 +1,8 @@
 import unittest
+
 from src.module.data_calculator import fitness
+from src.module.data_calculator import trim
+from src.module.data_calculator import untrim
 
 
 class TestDataCalculator(unittest.TestCase):
@@ -24,6 +27,25 @@ class TestDataCalculator(unittest.TestCase):
 
         # Check if the calculated distance matches the expected distance (with a small tolerance)
         self.assertAlmostEqual(total_distance, expected_distance, places=5)
+
+    def test_trim_same_first_last_genes(self):
+        # Test trimming when first and last genes are the same
+        chromosome = [1, 2, 3, 4, 1]
+        trimmed_chromosome = trim(chromosome)
+        self.assertEqual(trimmed_chromosome, [2, 3, 4])
+
+    def test_trim_different_first_last_genes(self):
+        # Test trimming when first and last genes are different
+        chromosome = [1, 2, 3, 4, 5]
+        trimmed_chromosome = trim(chromosome)
+        self.assertEqual(trimmed_chromosome, chromosome)
+
+    def test_untrim(self):
+        # Test untrimming the trimmed chromosome
+        trimmed_chromosome = [2, 3, 4]
+        trimed_gene = 9
+        untrimmed_chromosome = untrim(trimmed_chromosome, trimed_gene)
+        self.assertEqual(untrimmed_chromosome, [9, 2, 3, 4, 9])
 
 
 if __name__ == '__main__':
