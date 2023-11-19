@@ -24,22 +24,25 @@ class TestGeneticOperations(unittest.TestCase):
                 3: (345.0, 750.0),
                 4: (745.0, 225.0),
                 5: (475.0, 475.0)
-                # Add more city coordinates as needed
             }
         }
 
-        # Percentage of top solutions to select
-        percentage_to_select = 10  # Change this to your desired percentage
+        # Number of top solutions to select
+        num_selected = 3
 
         # Test the function
-        top_solutions = rank_selection(chromosomes, tsp_data, percentage_to_select)
+        top_solutions = rank_selection(chromosomes, tsp_data, num_selected)
 
         # Validate the output
-        expected_num_selected = len(chromosomes) * percentage_to_select // 100
-        self.assertEqual(len(top_solutions), expected_num_selected)
+        self.assertEqual(len(top_solutions), num_selected)
         # Ensure the selected solutions are present in the original chromosomes
         for solution in top_solutions:
             self.assertIn(solution, chromosomes)
+
+        # Ensure that the solutions are sorted
+        self.assertEqual(top_solutions[0], [3, 4, 5, 1, 2])
+        self.assertEqual(top_solutions[1], [2, 3, 4, 1, 5])
+        self.assertEqual(top_solutions[2], [1, 2, 3, 4, 5])
 
     def test_roulette_selection(self):
         # Mocking chromosomes and tsp_data

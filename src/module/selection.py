@@ -9,11 +9,11 @@ from .data_calculator import fitness
 
 
 # select chromosomes based on rank selection
-# @param choromosomes: Type 2D list (chromosome: Type list)
+# @param chromosomes: Type 2D list (chromosome: Type list)
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
-# @param percentage: Type Int
+# @param num_selected: Type Int
 # @return: new_chromosomes: Type 2D list
-def rank_selection(chromosomes, tsp_data, percentage):
+def rank_selection(chromosomes, tsp_data, num_selected):
     # Calculate fitness scores for each chromosome
     fitness_scores = [
         fitness(chromosome, tsp_data['NODE_COORD_SECTION'])
@@ -25,9 +25,6 @@ def rank_selection(chromosomes, tsp_data, percentage):
 
     # Sort chromosomes based on fitness scores
     sorted_chromosomes = sorted(combined_data, key=lambda x: x[1])  # Sort based on fitness scores
-
-    # Calculate the number of top solutions to select based on the percentage
-    num_selected = int(len(chromosomes) * percentage / 100)
 
     # Get the top solutions
     top_solutions = [solution[0] for solution in sorted_chromosomes[:num_selected]]
