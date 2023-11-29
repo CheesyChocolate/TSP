@@ -13,14 +13,13 @@ from module.visualization import plot_tsp_cities
 
 def main():
     # Check if the TSP file path is provided as an argument
-    if len(sys.argv) < 2:
-        print("Usage: python core.py <TSP_FILE_PATH>")
-        return
+    if len(sys.argv) > 1:
+        # Get the TSP file path from the arguments
+        tsp_file_path = sys.argv[1]
+    else:
+        # default to berlin52.tsp
+        tsp_file_path = "../data/berlin52.tsp"
 
-    # Get the TSP file path from the command-line argument
-    tsp_file_path = sys.argv[1]
-
-    # Read TSP data from the file
     tsp_data = read_tsp_file(tsp_file_path)
 
     # get the coords from the tsp data
