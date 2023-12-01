@@ -6,12 +6,15 @@
 #   trim(chromosome)
 #   untrim(chromosome, trimed_gene=1)
 
-import math
+# importing sqrt function from numpy module for better performance
+from numpy import sqrt
 
 
 # Calculate Euclidean distance between two points
 def calculate_distance(point1, point2):
-    return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
+    # FUN COMMENT: I wished I wrote this in C. I wanted to use fast inverse square root :(
+    # FUN COMMENT: this was my only chance to use it.
+    return sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 
 # Calculate total distance traveled for the given chromosome
