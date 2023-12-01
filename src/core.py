@@ -33,52 +33,56 @@ def main():
     # Create the initial population
     population = [generate_random_chromosome(coords) for _ in range(100)]
 
-    # get the best chromosome using rank selection
-    best_chromosome = rank_selection(population, tsp_data, 1)[0]
+    best_chromosome = None
 
-    # print the best chromosome
-    print("Best Chromosome")
-    print("Path:", best_chromosome)
-    print("Total Distance:", fitness(best_chromosome, coords), "\n")
-    plot_tsp_cities(coords, best_chromosome)
+    for generation in range(100):
+        print(f"Generation: {generation + 1}")
 
-    # add the best chromosome to the next generation
-    second_generation = [best_chromosome]
+        # get the best chromosome using rank selection
+        best_chromosome = rank_selection(population, tsp_data, 1)[0]
 
-    # Create 99 new chromosomes for the second generation using mutation and crossover
-    for _ in range(99):
-        # get the crossover probability randomly
-        crossover_probability = random.random()
+        # print the best chromosome
+        print("Best Chromosome")
+        print("Path:", best_chromosome)
+        print("Total Distance:", fitness(best_chromosome, coords))
+        print()
 
-        # apply crossover
-        if crossover_probability > 0.9:
-            # find 2 chromosomes using roulette wheel selection
-            selected_chromosomes = roulette_selection(population, tsp_data, 2)
+        # Create the next generation
+        second_generation = [best_chromosome]
+
+        # Generate new chromosomes for the second generation using mutation and crossover
+        for _ in range(99):
+            # get the crossover probability randomly
+            crossover_probability = random.random()
+
             # apply crossover
-            new_chromosome1, new_chromosome2 = order_crossover(selected_chromosomes[0], selected_chromosomes[1])
-            # add the crossover chromosomes to the second generation
-            second_generation.append(new_chromosome1)
-            second_generation.append(new_chromosome2)
-        # apply mutation
-        else:
-            # find 1 chromosome using roulette wheel selection
-            selected_chromosomes = roulette_selection(population, tsp_data, 1)
+            if crossover_probability > 0.9:
+                # find 2 chromosomes using roulette wheel selection
+                selected_chromosomes = roulette_selection(population, tsp_data, 2)
+                # apply crossover
+                new_chromosome1, new_chromosome2 = order_crossover(selected_chromosomes[0], selected_chromosomes[1])
+                # add the crossover chromosomes to the second generation
+                second_generation.append(new_chromosome1)
+                second_generation.append(new_chromosome2)
             # apply mutation
-            new_chromosome = swap_mutation(selected_chromosomes[0])
-            # add the mutation chromosome to the second generation
-            second_generation.append(new_chromosome)
+            else:
+                # find 1 chromosome using roulette wheel selection
+                selected_chromosomes = roulette_selection(population, tsp_data, 1)
+                # apply mutation
+                new_chromosome = swap_mutation(selected_chromosomes[0])
+                # add the mutation chromosome to the second generation
+                second_generation.append(new_chromosome)
 
-    # keep only the best 100 chromosomes
-    second_generation = rank_selection(second_generation, tsp_data, 100)
+        # keep only the best 100 chromosomes
+        second_generation = rank_selection(second_generation, tsp_data, 100)
 
-    # get the best chromosome using rank selection
-    best_chromosome = second_generation[0]
+        # Replace the current population with the next generation
+        population = second_generation
 
-    # print the best chromosome
-    print("Best Chromosome")
-    print("Path:", best_chromosome)
-    print("Total Distance:", fitness(best_chromosome, coords))
+    # Plot the best chromosome of the last generation
     plot_tsp_cities(coords, best_chromosome)
+
+    print(best_chromosome)
 
 
 if __name__ == "__main__":
