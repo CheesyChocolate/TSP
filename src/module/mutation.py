@@ -15,15 +15,19 @@ from .data_calculator import untrim
 # generate random chromosome
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
 # @return: Type list
-def generate_random_chromosome(tsp_data):
+def generate_random_chromosome(tsp_data, close_loop=True):
     # Extract city IDs from the dictionary keys
     chromosome = list(tsp_data.keys())
-    # Remove gene 1 temporarily to ensure it's not in the middle of the chromosome
-    chromosome.remove(1)
-    random.shuffle(chromosome)
-    # Ensure gene 1 appears both at the beginning and the end of the chromosome
-    chromosome = untrim(chromosome)
-    return chromosome
+    # if a close loop is required, add the first city to the end of the chromosome
+    if close_loop:
+        chromosome.append(chromosome[0])
+    # trim the chromosome (the trim function handles either the loop is closed or not)
+    trimmed_chromosome, trimmed_gene = trim(chromosome)
+    # shuffle the chromosome
+    random.shuffle(trimmed_chromosome)
+    # untrim the chromosome
+    untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
+    return untrimmed_chromosome
 
 
 # swap mutation
