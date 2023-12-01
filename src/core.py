@@ -11,6 +11,7 @@ from module.mutation import swap_mutation
 from module.selection import rank_selection
 from module.selection import roulette_selection
 from module.visualization import plot_tsp_cities
+from module.visualization import print_chromosome
 
 
 def main():
@@ -37,16 +38,11 @@ def main():
     best_chromosome = None
 
     for generation in range(100):
-        print(f"Generation: {generation + 1}")
-
         # get the best chromosome using rank selection
         best_chromosome = rank_selection(population, tsp_data, 1)[0]
 
         # print the best chromosome
-        print("Best Chromosome")
-        print("Path:", best_chromosome)
-        print("Total Distance:", fitness(best_chromosome, coords))
-        print()
+        print_chromosome(best_chromosome, fitness(best_chromosome, coords), generation)
 
         # Create the next generation
         second_generation = [best_chromosome]
@@ -84,23 +80,17 @@ def main():
     plot_tsp_cities(coords, best_chromosome)
 
     # print the best chromosome
-    print("Best Chromosome")
-    print("Path:", best_chromosome)
-    print("Total Distance:", fitness(best_chromosome, coords))
-    print()
+    print_chromosome(best_chromosome, fitness(best_chromosome, coords))
 
     # 2-opt on the best chromosome
-    print("Applying 2-opt")
+    print("Applying 2-opt...")
     best_chromosome = partial_two_opt(best_chromosome, coords)
 
     # Plot the best chromosome after 2-opt
     plot_tsp_cities(coords, best_chromosome)
 
     # print the best chromosome
-    print("Best Chromosome")
-    print("Path:", best_chromosome)
-    print("Total Distance:", fitness(best_chromosome, coords))
-    print()
+    print_chromosome(best_chromosome, fitness(best_chromosome, coords))
 
 
 if __name__ == "__main__":

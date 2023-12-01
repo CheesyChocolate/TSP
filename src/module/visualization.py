@@ -1,6 +1,10 @@
 # This module contains functions for visualizing the TSP data.
 # or printing the data to the console.
 
+# supported visualizations:
+#  - plot_tsp_cities: plots the cities and the solution path (if provided)
+#  - print_chromosome: prints the chromosome and its fitness to the console
+
 import matplotlib.pyplot as plt
 
 
@@ -26,3 +30,12 @@ def plot_tsp_cities(tsp_data, chromosome=None):
     plt.legend()
     plt.grid(True)
     plt.show()
+
+
+def print_chromosome(chromosome, fitness, generation=None):
+    if generation:
+        print('Generation: ', generation)
+
+    print('Best Chromosome: ', chromosome)
+    print('Fitness: ', fitness)
+    print('-------------------------')
