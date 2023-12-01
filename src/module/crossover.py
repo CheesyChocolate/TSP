@@ -17,8 +17,8 @@ from .data_calculator import untrim
 # @return child1: Type list
 # @return child2: Type list
 def order_crossover(parent1, parent2):
-    parent1 = trim(parent1)
-    parent2 = trim(parent2)
+    parent1, trimmed_genes1 = trim(parent1)
+    parent2, trimmed_genes2 = trim(parent2)
 
     # Choose two random crossover points
     point1, point2 = sorted(random.sample(range(len(parent1)), 2))
@@ -46,7 +46,7 @@ def order_crossover(parent1, parent2):
             idx += 1
 
     # Add the first and last genes to the children
-    child1 = untrim(child1)
-    child2 = untrim(child2)
+    child1 = untrim(child1, trimmed_genes1)
+    child2 = untrim(child2, trimmed_genes2)
 
     return child1, child2

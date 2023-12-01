@@ -31,14 +31,16 @@ class TestDataCalculator(unittest.TestCase):
     def test_trim_same_first_last_genes(self):
         # Test trimming when first and last genes are the same
         chromosome = [1, 2, 3, 4, 1]
-        trimmed_chromosome = trim(chromosome)
+        trimmed_chromosome, trimmed_gene = trim(chromosome)
         self.assertEqual(trimmed_chromosome, [2, 3, 4])
+        self.assertEqual(trimmed_gene, 1)
 
     def test_trim_different_first_last_genes(self):
         # Test trimming when first and last genes are different
         chromosome = [1, 2, 3, 4, 5]
-        trimmed_chromosome = trim(chromosome)
-        self.assertEqual(trimmed_chromosome, chromosome)
+        trimmed_chromosome, trimmed_gene = trim(chromosome)
+        self.assertEqual(trimmed_chromosome, [1, 2, 3, 4, 5])
+        self.assertEqual(trimmed_gene, None)
 
     def test_untrim(self):
         # Test untrimming the trimmed chromosome

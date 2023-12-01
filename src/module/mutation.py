@@ -30,7 +30,7 @@ def generate_random_chromosome(tsp_data):
 # @param chromosome: Type list
 # @return: Type list
 def swap_mutation(chromosome):
-    trimmed_chromosome = trim(chromosome)
+    trimmed_chromosome, trimmed_gene = trim(chromosome)
 
     # Get two distinct random positions within the trimmed chromosome
     position1, position2 = random.sample(range(len(trimmed_chromosome)), 2)
@@ -39,6 +39,6 @@ def swap_mutation(chromosome):
     trimmed_chromosome[position1], trimmed_chromosome[position2] = trimmed_chromosome[position2], trimmed_chromosome[position1]
 
     # Untrim the trimmed chromosome to restore the start and end genes (if necessary)
-    untrimmed_chromosome = untrim(trimmed_chromosome)
+    untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
 
     return untrimmed_chromosome
