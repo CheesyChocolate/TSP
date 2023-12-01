@@ -3,6 +3,7 @@
 
 # supported algorithms:
 # - 2-opt
+# - 2-opt with a stopping criterion (partial 2-opt)
 
 from .data_calculator import fitness
 from .mutation import inversion_mutation
@@ -35,5 +36,41 @@ def two_opt(chromosome, node_cords):
                     break
             if improved:
                 break
+
+    return chromosome
+
+
+# 2-opt local search algorithm with a stopping criterion
+# @param chromosome: Type list
+# @param tsp_data: type dict (TSP_DATA_SECTION)
+# @param max_iterations: type int
+# @param fitness_threshold: type float
+# @return: Type list
+def partial_two_opt(chromosome, tsp_data, max_iterations=20, fitness_threshold=0.001):
+    current_fitness = fitness(chromosome, tsp_data)
+
+    for iteration in range(max_iterations):
+        best_improvement = 0.0
+        best_i, best_k = None, None
+
+        # Perform the 2-opt swap
+        for i in range(1, len(chromosome) - 1):
+            for k in range(i + 1, len(chromosome)):
+                new_chromosome = inversion_mutation(chromosome, i, k)
+                new_fitness = fitness(new_chromosome, tsp_data)
+
+                # Check if this inversion yields a better solution
+                improvement = current_fitness - new_fitness
+                if improvement > best_improvement:
+                    best_improvement = improvement
+                    best_i, best_k = i, k
+
+        # If no improvements are significant enough, stop iterating
+        if best_improvement < fitness_threshold:
+            break
+
+        # Apply the best swap found
+        chromosome = inversion_mutation(chromosome, best_i, best_k)
+        current_fitness -= best_improvement
 
     return chromosome
