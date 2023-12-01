@@ -17,12 +17,12 @@ from .data_calculator import untrim
 # @return: Type list
 def generate_random_chromosome(tsp_data):
     # Extract city IDs from the dictionary keys
-    cities = list(tsp_data.keys())
-    # Remove key 1 temporarily to ensure it's not in the middle of the chromosome
-    cities.remove(1)
-    random.shuffle(cities)
-    # Ensure key 1 appears both at the beginning and the end of the chromosome
-    chromosome = untrim(cities)
+    chromosome = list(tsp_data.keys())
+    # Remove gene 1 temporarily to ensure it's not in the middle of the chromosome
+    chromosome.remove(1)
+    random.shuffle(chromosome)
+    # Ensure gene 1 appears both at the beginning and the end of the chromosome
+    chromosome = untrim(chromosome)
     return chromosome
 
 
