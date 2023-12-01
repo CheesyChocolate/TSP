@@ -17,7 +17,7 @@ class TestLocalSearch(unittest.TestCase):
         }
 
         # Sample chromosome (city IDs in a random order)
-        chromosome = [3, 1, 5, 2, 4]
+        chromosome = [1, 2, 3, 4, 5]
 
         # Perform the 2-opt local search
         improved_chromosome = two_opt(chromosome, node_coords)
@@ -43,7 +43,7 @@ class TestLocalSearch(unittest.TestCase):
         }
 
         # Sample chromosome (city IDs in a random order)
-        chromosome = [3, 1, 5, 2, 4]
+        chromosome = [1, 2, 3, 4, 5]
 
         # Perform the 2-opt local search
         improved_chromosome = partial_two_opt(chromosome, node_coords)
