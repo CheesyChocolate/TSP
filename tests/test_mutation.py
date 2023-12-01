@@ -2,6 +2,7 @@ import unittest
 
 from src.module.mutation import generate_random_chromosome
 from src.module.mutation import swap_mutation
+from src.module.mutation import inversion_mutation
 
 
 class TestMutation(unittest.TestCase):
@@ -44,6 +45,105 @@ class TestMutation(unittest.TestCase):
         # Ensure that the rest of the genes have been shuffled properly
         self.assertNotEqual(mutated_chromosome[1:-1], chromosome[1:-1])
         # Additional assertions based on specific scenarios or requirements
+
+    def test_inversion_mutation1(self):
+        # Create a sample chromosome
+        chromosome = [1, 2, 3, 4, 5, 6, 7, 8, 1]  # Assuming the chromosome starts and ends with 1
+
+        # Apply inversion mutation on a specific segment (e.g., indices 2 to 6)
+        mutated_chromosome = inversion_mutation(chromosome, 2, 6)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 7, 6, 5, 4, 3, 8, 1]  # Expected result after inverting indices 2 to 6
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 0 to 8)
+        mutated_chromosome = inversion_mutation(chromosome, 0, 8)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 8, 7, 6, 5, 4, 3, 2, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 1 to 7)
+        mutated_chromosome = inversion_mutation(chromosome, 1, 7)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 8, 7, 6, 5, 4, 3, 2, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 3 to 5)
+        mutated_chromosome = inversion_mutation(chromosome, 3, 5)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 6, 5, 4, 7, 8, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 4 to 4)
+        mutated_chromosome = inversion_mutation(chromosome, 4, 4)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 4, 5, 6, 7, 8, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # apply inversion mutation on a specific segment (e.g., indices 0 to 3)
+        mutated_chromosome = inversion_mutation(chromosome, 0, 3)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 4, 3, 2, 5, 6, 7, 8, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # apply inversion mutation on a specific segment (e.g., indices 5 to 8)
+        mutated_chromosome = inversion_mutation(chromosome, 5, 8)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 4, 5, 8, 7, 6, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+    def test_inversion_mutation2(self):
+        # Create a sample chromosome
+        chromosome = [1, 2, 3, 4, 5, 6, 7, 8]
+
+        # Apply inversion mutation on a specific segment (e.g., indices 2 to 6)
+        mutated_chromosome = inversion_mutation(chromosome, 2, 6)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 7, 6, 5, 4, 3, 8]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 0 to 7)
+        mutated_chromosome = inversion_mutation(chromosome, 0, 7)
+        # Define the expected result after inversion mutation
+        expected_result = [8, 7, 6, 5, 4, 3, 2, 1]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 1 to 6)
+        mutated_chromosome = inversion_mutation(chromosome, 1, 6)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 7, 6, 5, 4, 3, 2, 8]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 3 to 5)
+        mutated_chromosome = inversion_mutation(chromosome, 3, 5)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 6, 5, 4, 7, 8]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # Apply inversion mutation on a specific segment (e.g., indices 4 to 4)
+        mutated_chromosome = inversion_mutation(chromosome, 4, 4)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 4, 5, 6, 7, 8]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
+
+        # apply inversion mutation on a specific segment (e.g., indices 3 to 7)
+        mutated_chromosome = inversion_mutation(chromosome, 3, 7)
+        # Define the expected result after inversion mutation
+        expected_result = [1, 2, 3, 8, 7, 6, 5, 4]
+        # Assert that the mutation produces the expected result
+        self.assertEqual(mutated_chromosome, expected_result)
 
 
 if __name__ == '__main__':

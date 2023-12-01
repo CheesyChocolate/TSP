@@ -3,6 +3,7 @@
 # suppoted algorithms:
 #   - random chromosome
 #   - swap mutation
+#   - inversion mutation
 
 
 import random
@@ -44,5 +45,40 @@ def swap_mutation(chromosome):
 
     # Untrim the trimmed chromosome to restore the start and end genes (if necessary)
     untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
+
+    return untrimmed_chromosome
+
+
+# inversion mutation
+# @param chromosome: Type list
+# @param i: Type int
+# @param k: Type int
+# @return: Type list
+def inversion_mutation(chromosome, i, k):
+    # Trim the chromosome to preserve the initial and final genes
+    trimmed_chromosome, trimmed_gene = trim(chromosome)
+
+    # TODO: this is not a clean fix, breaks the algorithm structure
+    # TODO: as a resault in an array with lenght of 9. (i, k) of (0, 8) and (1, 7) yield the same result
+    # since the first gene is removed, the value of i and k should be adjusted
+    if trimmed_gene:
+        i -= 1
+        k -= 1
+
+        if i < 0:
+            i = 0
+
+        if k > len(trimmed_chromosome) - 1:
+            k = len(trimmed_chromosome) - 1
+
+    # Insert the sub-chromosome between the start and i
+    new_chromosome = trimmed_chromosome[:i]
+    # Reverse the sub-chromosome and insert it between i and k
+    new_chromosome.extend(reversed(trimmed_chromosome[i:k + 1]))
+    # Insert the sub-chromosome between k and the end
+    new_chromosome.extend(trimmed_chromosome[k + 1:])
+
+    # Untrim the chromosome to restore the initial and final genes
+    untrimmed_chromosome = untrim(new_chromosome, trimmed_gene)
 
     return untrimmed_chromosome
