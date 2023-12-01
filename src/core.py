@@ -5,6 +5,7 @@ import random
 from module.crossover import order_crossover
 from module.data_calculator import fitness
 from module.file_reader import read_tsp_file
+from module.local_search import partial_two_opt
 from module.mutation import generate_random_chromosome
 from module.mutation import swap_mutation
 from module.selection import rank_selection
@@ -82,7 +83,24 @@ def main():
     # Plot the best chromosome of the last generation
     plot_tsp_cities(coords, best_chromosome)
 
-    print(best_chromosome)
+    # print the best chromosome
+    print("Best Chromosome")
+    print("Path:", best_chromosome)
+    print("Total Distance:", fitness(best_chromosome, coords))
+    print()
+
+    # 2-opt on the best chromosome
+    print("Applying 2-opt")
+    best_chromosome = partial_two_opt(best_chromosome, coords)
+
+    # Plot the best chromosome after 2-opt
+    plot_tsp_cities(coords, best_chromosome)
+
+    # print the best chromosome
+    print("Best Chromosome")
+    print("Path:", best_chromosome)
+    print("Total Distance:", fitness(best_chromosome, coords))
+    print()
 
 
 if __name__ == "__main__":
