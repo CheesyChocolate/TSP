@@ -40,37 +40,54 @@ def two_opt(chromosome, node_cords):
     return chromosome
 
 
-# 2-opt local search algorithm with a stopping criterion
+# 2-opt local search algorithm with a stopping criterion and a maximum number of iterations
+# FUN COMMENT: Brain me BIG!!!!
+# TODO: fiteness threshold can be dynamic. more iterations -> lower threshold
 # @param chromosome: Type list
 # @param tsp_data: type dict (TSP_DATA_SECTION)
 # @param max_iterations: type int
 # @param fitness_threshold: type float
 # @return: Type list
 def partial_two_opt(chromosome, tsp_data, max_iterations=20, fitness_threshold=0.001):
+    # Initial fitness calculation
     current_fitness = fitness(chromosome, tsp_data)
+    n = len(chromosome)  # Number of genes in the chromosome
 
+    # Perform the 2-opt local search for a certain number of iterations
     for iteration in range(max_iterations):
         best_improvement = 0.0
         best_i, best_k = None, None
 
-        # Perform the 2-opt swap
-        for i in range(1, len(chromosome) - 1):
-            for k in range(i + 1, len(chromosome)):
+        # Iterate over the chromosome to find the best improvement
+        # TODO: start form different positions in the chromosome for each iteration
+        for i in range(1, n - 1):
+            for k in range(i + 2, n - 1):
+                # Apply inversion mutation to create a new chromosome
                 new_chromosome = inversion_mutation(chromosome, i, k)
                 new_fitness = fitness(new_chromosome, tsp_data)
 
-                # Check if this inversion yields a better solution
+                # Calculate the improvement in fitness
                 improvement = current_fitness - new_fitness
+
+                # Check if the new solution is better
                 if improvement > best_improvement:
                     best_improvement = improvement
                     best_i, best_k = i, k
 
-        # If no improvements are significant enough, stop iterating
+                # Check if the improvement meets the fitness threshold
+                if best_improvement >= fitness_threshold:
+                    break  # Exit the inner loop
+
+            # Check if the improvement meets the fitness threshold
+            if best_improvement >= fitness_threshold:
+                break  # Exit the outer loop
+
+        # If no significant improvements found, terminate the search
         if best_improvement < fitness_threshold:
             break
 
-        # Apply the best swap found
+        # Apply the best inversion mutation found
         chromosome = inversion_mutation(chromosome, best_i, best_k)
-        current_fitness -= best_improvement
+        current_fitness -= best_improvement  # Update current fitness
 
     return chromosome
