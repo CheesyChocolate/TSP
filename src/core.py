@@ -21,7 +21,7 @@ def main():
         tsp_file_path = sys.argv[1]
     else:
         # default to berlin52.tsp
-        tsp_file_path = "../data/berlin52.tsp"
+        tsp_file_path = "./data/ulysses22.tsp"
 
     tsp_data = read_tsp_file(tsp_file_path)
 
