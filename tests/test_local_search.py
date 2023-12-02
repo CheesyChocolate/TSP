@@ -84,6 +84,31 @@ class TestLocalSearch(unittest.TestCase):
         # Ensure the improved solution has better fitness (lower distance)
         self.assertLess(improved_fitness, initial_fitness)
 
+    def test_partial_two_opt2(self):
+        # Define a simple test case with a known optimal solution
+        node_coords = {
+            1: (0, 0),
+            2: (3, 0),
+            3: (3, 4),
+            4: (0, 4),
+            5: (1, 1)
+        }
+        # Initial chromosome
+        chromosome = [1, 3, 2, 4, 5, 1]
+
+        # Apply the partial 2-opt algorithm
+        result_chromosome = partial_two_opt(chromosome, node_coords, max_iterations=100, fitness_threshold=0.001)
+
+        # Ensure the resulting chromosome has the same number of genes
+        self.assertEqual(len(chromosome), len(result_chromosome))
+
+        # Calculate fitness before and after 2-opt
+        initial_fitness = fitness(chromosome, node_coords)
+        result_fitness = fitness(result_chromosome, node_coords)
+
+        # Assert that the fitness after optimization is better than before
+        self.assertLess(result_fitness, initial_fitness)
+
 
 if __name__ == '__main__':
     unittest.main()
