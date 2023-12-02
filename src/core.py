@@ -53,7 +53,7 @@ def main():
             crossover_probability = random.random()
 
             # apply crossover
-            if crossover_probability > 0.9:
+            if crossover_probability > 0.4:
                 # find 2 chromosomes using roulette wheel selection
                 selected_chromosomes = roulette_selection(population, tsp_data, 2)
                 # apply crossover
