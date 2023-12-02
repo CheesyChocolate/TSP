@@ -67,6 +67,8 @@ def main():
                 selected_chromosomes = roulette_selection(population, tsp_data, 1)
                 # apply mutation
                 new_chromosome = swap_mutation(selected_chromosomes[0])
+                # apply 2-opt on the new chromosome
+                new_chromosome = partial_two_opt(new_chromosome, coords)
                 # add the mutation chromosome to the second generation
                 second_generation.append(new_chromosome)
 
