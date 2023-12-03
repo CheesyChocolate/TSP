@@ -2,7 +2,7 @@
 import sys
 import random
 
-from module.crossover import order_crossover
+from module.crossover import cycle_crossover
 from module.data_calculator import fitness
 from module.file_reader import read_tsp_file
 from module.local_search import partial_two_opt
@@ -57,7 +57,7 @@ def main():
                 # find 2 chromosomes using roulette wheel selection
                 selected_chromosomes = roulette_selection(population, tsp_data, 2)
                 # apply crossover
-                new_chromosome1, new_chromosome2 = order_crossover(selected_chromosomes[0], selected_chromosomes[1])
+                new_chromosome1, new_chromosome2 = cycle_crossover(selected_chromosomes[0], selected_chromosomes[1])
                 # add the crossover chromosomes to the second generation
                 second_generation.append(new_chromosome1)
                 second_generation.append(new_chromosome2)
