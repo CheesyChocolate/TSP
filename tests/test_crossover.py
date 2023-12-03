@@ -2,8 +2,8 @@ import unittest
 from src.module.crossover import order_crossover
 
 
-class TestMutation(unittest.TestCase):
-    def test_order_crossover(self):
+class TestOrderCrossover(unittest.TestCase):
+    def test_order_crossover_closed_loop(self):
         # Test chromosomes
         parent1 = [1, 2, 3, 4, 5, 6, 7, 8, 1]
         parent2 = [1, 7, 2, 4, 8, 5, 9, 6, 1]
