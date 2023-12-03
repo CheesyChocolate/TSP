@@ -1,6 +1,7 @@
 # This module contains functions for crossovering chromosomes for the next generation
 # suppoted algorithms:
 #   - order crossover
+#   - cycle crossover
 
 
 import random
