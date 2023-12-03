@@ -4,6 +4,7 @@ from src.module.mutation import generate_random_chromosome
 from src.module.mutation import swap_mutation
 from src.module.mutation import inversion_mutation
 from src.module.mutation import insert_mutation
+from src.module.mutation import random_slide_mutation
 
 
 class TestMutation(unittest.TestCase):
@@ -167,6 +168,40 @@ class TestInsertMutation(unittest.TestCase):
         chromosome = original_chromosome.copy()
 
         mutated_chromosome = insert_mutation(chromosome)
+
+        # Assert that the length remains the same
+        self.assertEqual(len(original_chromosome), len(mutated_chromosome))
+
+        # Assert that the chromosomes are different
+        self.assertNotEqual(original_chromosome, mutated_chromosome)
+
+
+class TestRandomSlideMutation(unittest.TestCase):
+    def test_open_loop_random_slide_mutation(self):
+        # Test for open loop mutation (without start and end genes being the same)
+        original_chromosome = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        chromosome = original_chromosome.copy()
+
+        mutated_chromosome = random_slide_mutation(chromosome)
+
+        # Assert that the length remains the same
+        self.assertEqual(len(original_chromosome), len(mutated_chromosome))
+
+        # ensure there's no repeated gene
+        self.assertEqual(len(set(mutated_chromosome)), len(mutated_chromosome))
+
+        # Assert that the chromosomes are different
+        self.assertNotEqual(original_chromosome, mutated_chromosome)
+
+    def test_closed_loop_random_slide_mutation(self):
+        # Test for closed loop mutation (start and end genes being the same)
+        original_chromosome = [1, 2, 3, 4, 5, 6, 7, 8, 1]
+        chromosome = original_chromosome.copy()
+
+        # ensure the only repeated gene is the start/end gene
+        self.assertEqual(len(set(chromosome)), len(chromosome) - 1)
+
+        mutated_chromosome = random_slide_mutation(chromosome)
 
         # Assert that the length remains the same
         self.assertEqual(len(original_chromosome), len(mutated_chromosome))

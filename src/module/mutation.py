@@ -4,6 +4,7 @@
 #   - random chromosome
 #   - swap mutation
 #   - inversion mutation
+#   - insert mutation
 
 
 import random
@@ -104,3 +105,37 @@ def insert_mutation(chromosome):
     untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
 
     return untrimmed_chromosome
+
+
+# Random Slide Mutation
+# TODO: this function has a chance to generate a child similar to the parent
+#    this is because the subsequence can be shifted to the same position
+#    this can be fixed by checking if the subsequence is shifted to the same position
+# @param chromosome: Type list
+# @return: Type list
+def random_slide_mutation(chromosome):
+    # Get the length of the chromosome
+    chrom_length = len(chromosome)
+
+    # Define the range for the subsequence to be shifted
+    start_idx = 0
+    end_idx = 0
+
+    # ensure that the subsequence is at least 2 genes long
+    while end_idx - start_idx < 2:
+        start_idx = random.randint(0, chrom_length - 1)
+        end_idx = random.randint(start_idx + 1, chrom_length)
+
+    # Get the subsequence to be shifted
+    subsequence = chromosome[start_idx:end_idx]
+
+    # Remove the subsequence from the chromosome
+    del chromosome[start_idx:end_idx]
+
+    # Determine the random position for insertion
+    insert_idx = random.randint(0, chrom_length - len(subsequence))
+
+    # Insert the subsequence at the random position
+    chromosome[insert_idx:insert_idx] = subsequence
+
+    return chromosome
