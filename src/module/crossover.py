@@ -12,7 +12,8 @@ from .data_calculator import untrim
 
 
 # Order crossover
-# this function heavily relies on the fact that the first and last genes of a chromosome are always '1'
+# TODO: this function has the potential to create children similar to their parents
+#      add a check to make sure the children are not too similar to their parents
 # @param parent1: Type list
 # @param parent2: Type list
 # @return child1: Type list
