@@ -11,6 +11,10 @@ class TestOrderCrossover(unittest.TestCase):
         # Perform crossover
         child1, child2 = order_crossover(parent1, parent2)
 
+        # Assert children are of the same length as parents
+        self.assertEqual(len(child1), len(parent1))
+        self.assertEqual(len(child2), len(parent2))
+
         # Assert other genes in the children are unique
         child1_no_1 = child1[1:-1]
         child2_no_1 = child2[1:-1]
