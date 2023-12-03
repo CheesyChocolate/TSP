@@ -54,73 +54,33 @@ def order_crossover(parent1, parent2):
 
 
 # CYCLE CROSSOVER
-# TODO: this implementation is messy, fails the commented test case and out
-# right does not function as expected
-# @param parent1: Type list (chromosome)
-# @param parent2: Type list (chromosome)
-# @return: Type list (offspring1)
-# @return: Type list (offspring2)
-def cycle_crossover(parent1, parent2):
-    # Trin the first and last genes of the chromosome
-    parent1, trimmed_genes1 = trim(parent1)
-    parent2, trimmed_genes2 = trim(parent2)
+# @param parent1: Type list
+# @param parent2: Type list
+# @return: Type tuple (offspring1: Type list, offspring2: Type list)
+# def cycle_crossover(parent1, parent2):
+#     child1 = [-1] * len(parent1)
+#     child2 = [-1] * len(parent2)
 
-    # TODO: a hacky fix, need to be fixed
-    # if there exist a trimmed_gene1 and trimmed_gene2, then
-    # shift all the values in parent1 and parent2 to the right by -1
-    if trimmed_genes1 and trimmed_genes2:
-        for i in range(len(parent1)):
-            parent1[i] = parent1[i] - 1
-            parent2[i] = parent2[i] - 1
+#     # Initialize a list to track which elements have been visited
+#     visited = [False] * len(parent1)
 
-    allele_count = len(parent1)
-    flags = [False] * allele_count
-    ht1 = {}
-    for j in range(allele_count):
-        temp_pair = {
-            'value2': parent2[j],
-            'index2': j,
-            'value1': parent1[j]
-        }
-        ht1[parent2[j]] = temp_pair
+#     # Start the cycle crossover process
+#     while True:
+#         # Find the first unvisited position
+#         idx = next((i for i, v in enumerate(visited) if not v), None)
+#         if idx is None:
+#             break  # All elements have been visited
 
-    cycles = []
-    for j in range(allele_count):
-        temp_cycle = []
-        if not flags[j]:
-            cycle_start = j
-            temp_pair = ht1[parent1[cycle_start]]
-            temp_cycle.append(temp_pair)
-            flags[temp_pair['index2']] = True
-            while temp_pair['index2'] != cycle_start:
-                temp_pair = ht1[parent1[temp_pair['index2']]]
-                temp_cycle.append(temp_pair)
-                flags[temp_pair['index2']] = True
-            cycles.append(temp_cycle)
+#         # Start a new cycle
+#         while not visited[idx]:
+#             visited[idx] = True
 
-    child1 = [-1] * allele_count
-    child2 = [-1] * allele_count
-    counter = 0
-    for cycle in cycles:
-        for temp_pair in cycle:
-            if counter % 2 == 0:
-                child1[temp_pair['index2']] = temp_pair['value1']
-                child2[temp_pair['index2']] = temp_pair['value2']
-            else:
-                child1[temp_pair['index2']] = temp_pair['value2']
-                child2[temp_pair['index2']] = temp_pair['value1']
-        counter += 1
+#             # Assign the corresponding elements from parents to children
+#             child1[idx] = parent1[idx]
+#             child2[idx] = parent2[idx]
 
-    # TODO: a hacky fix, need to be fixed
-    # if there exist a trimmed_gene1 and trimmed_gene2, then
-    # shift all the values in child1 and child2 to the right by +1
-    if trimmed_genes1 and trimmed_genes2:
-        for i in range(len(child1)):
-            child1[i] = child1[i] + 1
-            child2[i] = child2[i] + 1
+#             # Find the index of the corresponding element in the other parent
+#             idx_p2 = parent1.index(parent2[idx])
+#             idx = idx_p2
 
-    # Add the first and last genes to the children
-    child1 = untrim(child1, trimmed_genes1)
-    child2 = untrim(child2, trimmed_genes2)
-
-    return child1, child2
+#     return child1, child2
