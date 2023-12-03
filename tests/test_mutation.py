@@ -3,6 +3,7 @@ import unittest
 from src.module.mutation import generate_random_chromosome
 from src.module.mutation import swap_mutation
 from src.module.mutation import inversion_mutation
+from src.module.mutation import insert_mutation
 
 
 class TestMutation(unittest.TestCase):
@@ -144,6 +145,34 @@ class TestMutation(unittest.TestCase):
         expected_result = [1, 2, 3, 8, 7, 6, 5, 4]
         # Assert that the mutation produces the expected result
         self.assertEqual(mutated_chromosome, expected_result)
+
+
+class TestInsertMutation(unittest.TestCase):
+    def test_open_loop_insert_mutation(self):
+        # Test for open loop mutation (without start and end genes being the same)
+        original_chromosome = [1, 2, 3, 4, 5]
+        chromosome = original_chromosome.copy()
+
+        mutated_chromosome = insert_mutation(chromosome)
+
+        # Assert that the length remains the same
+        self.assertEqual(len(original_chromosome), len(mutated_chromosome))
+
+        # Assert that the chromosomes are different
+        self.assertNotEqual(original_chromosome, mutated_chromosome)
+
+    def test_closed_loop_insert_mutation(self):
+        # Test for closed loop mutation (start and end genes being the same)
+        original_chromosome = [1, 2, 3, 4, 5, 1]
+        chromosome = original_chromosome.copy()
+
+        mutated_chromosome = insert_mutation(chromosome)
+
+        # Assert that the length remains the same
+        self.assertEqual(len(original_chromosome), len(mutated_chromosome))
+
+        # Assert that the chromosomes are different
+        self.assertNotEqual(original_chromosome, mutated_chromosome)
 
 
 if __name__ == '__main__':

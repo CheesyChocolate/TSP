@@ -82,3 +82,25 @@ def inversion_mutation(chromosome, i, k):
     untrimmed_chromosome = untrim(new_chromosome, trimmed_gene)
 
     return untrimmed_chromosome
+
+
+# INSERT MUTATION
+# @param chromosome: Type list
+# @return: Type list
+def insert_mutation(chromosome):
+    # Trim the chromosome to preserve the initial and final genes
+    trimmed_chromosome, trimmed_gene = trim(chromosome)
+
+    # Select two random positions in the chromosome
+    pos1, pos2 = 0, 0
+    while pos1 <= pos2:
+        pos1, pos2 = random.sample(range(len(trimmed_chromosome)), 2)
+
+    # Extract the allele at pos2 and insert it after pos1, shifting all other alleles
+    allele = trimmed_chromosome.pop(pos2)
+    trimmed_chromosome.insert(pos1 + 1, allele)
+
+    # Untrim the chromosome to restore the initial and final genes
+    untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
+
+    return untrimmed_chromosome
