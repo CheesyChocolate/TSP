@@ -49,6 +49,13 @@ class TestDataCalculator(unittest.TestCase):
         untrimmed_chromosome = untrim(trimmed_chromosome, trimed_gene)
         self.assertEqual(untrimmed_chromosome, [9, 2, 3, 4, 9])
 
+    def test_untrim_no_trimmed_gene(self):
+        # Test untrimming the trimmed chromosome when there is no trimmed gene
+        trimmed_chromosome = [1, 2, 3, 4, 5]
+        trimed_gene = None
+        untrimmed_chromosome = untrim(trimmed_chromosome, trimed_gene)
+        self.assertEqual(untrimmed_chromosome, [1, 2, 3, 4, 5])
+
 
 if __name__ == '__main__':
     unittest.main()
