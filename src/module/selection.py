@@ -12,7 +12,7 @@ from .data_calculator import fitness
 # @param population: Type 2D list (chromosome: Type list)
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
 # @param num_selected: Type Int
-# @return: new_chromosomes: Type 2D list
+# @return: top_population: Type 2D list (chromosome x genes)
 def rank_selection(population, tsp_data, num_selected):
     # Calculate fitness scores for each chromosome
     fitness_scores = [
@@ -36,7 +36,7 @@ def rank_selection(population, tsp_data, num_selected):
 # @param population: Type 2D list (chromosome: Type list)
 # @param tsp_data: Type dict (NODE_COORD_SECTION)
 # @param num_selected: Type Int
-# @return: selected_chromosomes: Type 2D list (chromosome x genes)
+# @return: selected_population: Type 2D list (chromosome x genes)
 def roulette_selection(population, tsp_data, num_selected):
     # Calculate fitness scores for each chromosome
     fitness_scores = [
