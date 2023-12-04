@@ -108,34 +108,29 @@ def insert_mutation(chromosome):
 
 
 # Random Slide Mutation
-# TODO: this function has a chance to generate a child similar to the parent
-#    this is because the subsequence can be shifted to the same position
-#    this can be fixed by checking if the subsequence is shifted to the same position
+# TODO: same as insert mutation, but the size of the sub-chromosome is random
 # @param chromosome: Type list
 # @return: Type list
 def random_slide_mutation(chromosome):
-    # Get the length of the chromosome
-    chrom_length = len(chromosome)
+    # Trim the chromosome to preserve the initial and final genes
+    trimmed_chromosome, trimmed_gene = trim(chromosome)
 
-    # Define the range for the subsequence to be shifted
-    start_idx = 0
-    end_idx = 0
+    # Select random positions in the chromosome
+    pos1, pos2 = sorted(random.sample(range(len(trimmed_chromosome)), 2))
 
-    # ensure that the subsequence is at least 2 genes long
-    while end_idx - start_idx < 2:
-        start_idx = random.randint(0, chrom_length - 1)
-        end_idx = random.randint(start_idx + 1, chrom_length)
+    # Extract the sub-chromosome
+    sub_chromosome = trimmed_chromosome[pos1:pos2 + 1]
 
-    # Get the subsequence to be shifted
-    subsequence = chromosome[start_idx:end_idx]
+    # Remove the sub-chromosome from the chromosome
+    trimmed_chromosome = trimmed_chromosome[:pos1] + trimmed_chromosome[pos2 + 1:]
 
-    # Remove the subsequence from the chromosome
-    del chromosome[start_idx:end_idx]
+    # Select a random position in the chromosome
+    pos3 = random.randint(0, len(trimmed_chromosome))
 
-    # Determine the random position for insertion
-    insert_idx = random.randint(0, chrom_length - len(subsequence))
+    # Insert the sub-chromosome into the chromosome
+    mutated_chromosome = trimmed_chromosome[:pos3] + sub_chromosome + trimmed_chromosome[pos3:]
 
-    # Insert the subsequence at the random position
-    chromosome[insert_idx:insert_idx] = subsequence
+    # Untrim the chromosome to restore the initial and final genes
+    untrimmed_chromosome = untrim(mutated_chromosome, trimmed_gene)
 
-    return chromosome
+    return untrimmed_chromosome
