@@ -130,8 +130,8 @@ class TestCycleCrossover(unittest.TestCase):
         parent2 = [1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
         # Expected outcome for the test case
-        expected_child1 = [1, 10, 3, 8, 5, 6, 7, 4, 9, 2, 1]
-        expected_child2 = [1, 2, 9, 4, 7, 6, 5, 8, 3, 10, 1]
+        expected_child1 = [1, 2, 9, 4, 7, 6, 5, 8, 3, 10, 1]
+        expected_child2 = [1, 10, 3, 8, 5, 6, 7, 4, 9, 2, 1]
 
         # Perform cycle crossover
         child1, child2 = cycle_crossover(parent1, parent2)

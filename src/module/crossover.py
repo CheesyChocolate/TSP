@@ -53,35 +53,48 @@ def order_crossover(parent1, parent2):
 
     return child1, child2
 
+# Cycle crossover
+# @param parent1: Type list (chromosome)
+# @param parent2: Type list (chromosome)
+# @return: Type tuple (child1: Type list, child2: Type list)
+def cycle_crossover(original_parent1, original_parent2):
+    # trim the parents
+    parent1, trimmed_genes1 = trim(original_parent1)
+    parent2, trimmed_genes2 = trim(original_parent2)
 
-# CYCLE CROSSOVER
-# @param parent1: Type list
-# @param parent2: Type list
-# @return: Type tuple (offspring1: Type list, offspring2: Type list)
-# def cycle_crossover(parent1, parent2):
-#     child1 = [-1] * len(parent1)
-#     child2 = [-1] * len(parent2)
+    # create empty children
+    child1 = [None] * len(parent1)
+    child2 = [None] * len(parent1)
 
-#     # Initialize a list to track which elements have been visited
-#     visited = [False] * len(parent1)
+    # cycle from the first gene
+    cycle = 0
+    while None in child1:
+        # go through even cycles
+        if cycle % 2 == 0:
+            # copy a cycle from parent1 to child1 and from parent2 to child2
+            start = child1.index(None)
+            while True:
+                child1[start] = parent1[start]
+                child2[start] = parent2[start]
+                start = parent1.index(parent2[start])
+                # go to the next cycle if the cycle is complete
+                if child1[start] is not None:
+                    break
+        # go through odd cycles
+        else:
+            # copy a cycle from parent2 to child1 and from parent1 to child2
+            start = child1.index(None)
+            while True:
+                child1[start] = parent2[start]
+                child2[start] = parent1[start]
+                start = parent2.index(parent1[start])
+                # go to the next cycle if the cycle is complete
+                if child1[start] is not None:
+                    break
+        cycle += 1
 
-#     # Start the cycle crossover process
-#     while True:
-#         # Find the first unvisited position
-#         idx = next((i for i, v in enumerate(visited) if not v), None)
-#         if idx is None:
-#             break  # All elements have been visited
+    # add the first and last genes to the children
+    child1 = untrim(child1, trimmed_genes1)
+    child2 = untrim(child2, trimmed_genes2)
 
-#         # Start a new cycle
-#         while not visited[idx]:
-#             visited[idx] = True
-
-#             # Assign the corresponding elements from parents to children
-#             child1[idx] = parent1[idx]
-#             child2[idx] = parent2[idx]
-
-#             # Find the index of the corresponding element in the other parent
-#             idx_p2 = parent1.index(parent2[idx])
-#             idx = idx_p2
-
-#     return child1, child2
+    return child1, child2
