@@ -5,6 +5,12 @@ another variable. This is why I was getting weird results.
 
 Remember to use literal copy of arrays when needed.
 
+# data_calculator.py
+
+[] implement `calculate_distance_matrix` function using `scipy.spatial.distance_matrix`
+[] implement `calculate_distance_matrix` function using `pandas.DataFrame`
+[] implement `calculate_distance_matrix` function using `networkx.Graph`
+[] store the distance matrix in a meory and use it instead of recalculating distances every time
 
 # local_search.py
 
