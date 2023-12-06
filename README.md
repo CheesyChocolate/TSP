@@ -20,3 +20,7 @@ NODE_COORD_SECTION
 ...
 EOF
 ```
+
+# Credits
+
+- [Ali Daghighi](https://github.com/alidaghighi) for Cycle Crossover implementation

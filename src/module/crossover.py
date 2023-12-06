@@ -53,7 +53,9 @@ def order_crossover(parent1, parent2):
 
     return child1, child2
 
+
 # Cycle crossover
+# Credit: Ali Daghighi
 # @param parent1: Type list (chromosome)
 # @param parent2: Type list (chromosome)
 # @return: Type tuple (child1: Type list, child2: Type list)
