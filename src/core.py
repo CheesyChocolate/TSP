@@ -24,6 +24,7 @@ def main():
     else:
         print("Please provide the TSP file path as an argument.")
         print("Example: python3 core.py <TSP file path>")
+        exit(1)
 
     tsp_data = read_tsp_file(tsp_file_path)
 
