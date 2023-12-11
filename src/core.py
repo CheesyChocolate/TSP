@@ -5,7 +5,7 @@ import random
 from module.crossover import cycle_crossover
 from module.data_calculator import fitness
 from module.file_reader import read_tsp_file
-from module.local_search import two_opt as three_opt
+from module.local_search import three_opt
 from module.local_search import partial_two_opt
 from module.mutation import generate_random_chromosome
 from module.mutation import insert_mutation
@@ -106,6 +106,8 @@ def main():
     # Plot the best chromosome of the last generation
     plot_tsp_cities(coords, best_chromosome)
     print_chromosome(best_chromosome, fitness(best_chromosome, coords))
+
+    print("Applying 3-opt on the best chromosome...")
 
     # apply 3-opt on the best chromosome
     best_chromosome = three_opt(best_chromosome, coords)

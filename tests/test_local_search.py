@@ -2,6 +2,7 @@ import unittest
 
 from src.module.local_search import two_opt
 from src.module.local_search import partial_two_opt
+from src.module.local_search import three_opt
 from src.module.data_calculator import fitness
 
 
@@ -108,6 +109,45 @@ class TestLocalSearch(unittest.TestCase):
 
         # Assert that the fitness after optimization is better than before
         self.assertLess(result_fitness, initial_fitness)
+
+
+class TestThreeOpt(unittest.TestCase):
+
+    def test_three_opt_basic(self):
+        # Create a basic test case with a known input and expected output
+        node_cords = {
+            1: (0, 0),
+            2: (3, 0),
+            3: (3, 4),
+            4: (0, 4),
+            5: (1, 1),
+            6: (2, 2),
+            7: (1, 3),
+            8: (2, 3),
+            9: (1, 2)
+        }
+        chromosome = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        # Calculate the initial distance for comparison
+        initial_distance = fitness(chromosome, node_cords)
+
+        # Apply the 3-opt algorithm
+        result_chromosome = three_opt(chromosome, node_cords)
+
+        # Calculate the distance of the resulting chromosome
+        result_distance = fitness(result_chromosome, node_cords)
+
+        # Ensure that the resulting chromosome is different from the initial one
+        self.assertNotEqual(chromosome, result_chromosome)
+
+        # Ensure that the resulting distance is less than or equal to the initial distance
+        self.assertLessEqual(result_distance, initial_distance)
+
+        # Ensure the resulting chromosome has the same number of genes
+        self.assertEqual(len(chromosome), len(result_chromosome))
+
+        # Ensure that the resulting chromosome is a valid solution
+        self.assertEqual(set(chromosome), set(result_chromosome))
 
 
 if __name__ == '__main__':
