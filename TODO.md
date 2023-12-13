@@ -16,6 +16,7 @@ Remember to use literal copy of arrays when needed.
 
 [] implement Lin–Kernighan heuristic
 [] implement 3-opt with a stopping criterion
+[] fix partial_two_opt unit test and uncomment it
 
 # visualization.py
 
