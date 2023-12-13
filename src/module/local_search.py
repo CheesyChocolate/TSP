@@ -4,6 +4,8 @@
 # supported algorithms:
 # - 2-opt
 # - 2-opt with a stopping criterion (partial 2-opt)
+# - 3-opt
+
 
 from .data_calculator import fitness
 from .mutation import inversion_mutation
@@ -11,11 +13,11 @@ from .mutation import inversion_mutation
 
 # 2-opt local search algorithm
 # @param chromosome: Type list
-# @param node_cords: type dict (NODE_CORD_SECTION)
+# @param dist_matrix: type matrix
 # @return: Type list
-def two_opt(chromosome, node_cords):
+def two_opt(chromosome, dist_matrix):
     num_cities = len(chromosome)
-    best_distance = fitness(chromosome, node_cords)
+    best_fitness = fitness(chromosome, dist_matrix)
 
     improved = True
     while improved:
@@ -26,12 +28,12 @@ def two_opt(chromosome, node_cords):
                 new_chromosome = inversion_mutation(chromosome, i, k)
 
                 # Calculate the fitness of the new solution
-                new_distance = fitness(new_chromosome, node_cords)
+                new_fitness = fitness(new_chromosome, dist_matrix)
 
-                # If the new solution is better, update the chromosome and distance
-                if new_distance < best_distance:
+                # If the new solution is better, update the chromosome and fitness
+                if new_fitness > best_fitness:
                     chromosome = new_chromosome
-                    best_distance = new_distance
+                    best_fitness = new_fitness
                     improved = True
                     break
             if improved:
@@ -44,13 +46,13 @@ def two_opt(chromosome, node_cords):
 # FUN COMMENT: Brain me BIG!!!!
 # TODO: fiteness threshold can be dynamic. more iterations -> lower threshold
 # @param chromosome: Type list
-# @param tsp_data: type dict (TSP_DATA_SECTION)
+# @param dist_matrix: type matrix
 # @param max_iterations: type int
 # @param fitness_threshold: type float
 # @return: Type list
-def partial_two_opt(chromosome, tsp_data, max_iterations=20, fitness_threshold=0.001):
+def partial_two_opt(chromosome, dist_matrix, max_iterations=20, fitness_threshold=0.001):
     # Initial fitness calculation
-    current_fitness = fitness(chromosome, tsp_data)
+    current_fitness = fitness(chromosome, dist_matrix)
     n = len(chromosome)  # Number of genes in the chromosome
 
     # Perform the 2-opt local search for a certain number of iterations
@@ -64,10 +66,10 @@ def partial_two_opt(chromosome, tsp_data, max_iterations=20, fitness_threshold=0
             for k in range(i + 2, n - 1):
                 # Apply inversion mutation to create a new chromosome
                 new_chromosome = inversion_mutation(chromosome, i, k)
-                new_fitness = fitness(new_chromosome, tsp_data)
+                new_fitness = fitness(new_chromosome, dist_matrix)
 
                 # Calculate the improvement in fitness
-                improvement = current_fitness - new_fitness
+                improvement = new_fitness - current_fitness
 
                 # Check if the new solution is better
                 if improvement > best_improvement:
@@ -88,18 +90,18 @@ def partial_two_opt(chromosome, tsp_data, max_iterations=20, fitness_threshold=0
 
         # Apply the best inversion mutation found
         chromosome = inversion_mutation(chromosome, best_i, best_k)
-        current_fitness -= best_improvement  # Update current fitness
+        current_fitness += best_improvement # Update the current fitness
 
     return chromosome
 
 
 # 3-opt local search algorithm
 # @param chromosome: Type list
-# @param node_cords: type dict (NODE_CORD_SECTION)
+# @param dist_matrix: type matrix
 # @return: Type list
-def three_opt(chromosome, node_cords):
+def three_opt(chromosome, dist_matrix):
     num_cities = len(chromosome)
-    best_distance = fitness(chromosome, node_cords)
+    best_fitness = fitness(chromosome, dist_matrix)
 
     improved = True
     while improved:
@@ -108,15 +110,15 @@ def three_opt(chromosome, node_cords):
             for j in range(i + 1, num_cities - 1):
                 for k in range(j + 1, num_cities):
                     # Apply 3-opt moves to generate new candidate solutions
-                    new_chromosome = three_opt_move(chromosome, node_cords, i, j, k)
+                    new_chromosome = three_opt_move(chromosome, dist_matrix, i, j, k)
 
                     # Calculate the fitness of the new solution
-                    new_distance = fitness(new_chromosome, node_cords)
+                    new_fitness = fitness(new_chromosome, dist_matrix)
 
                     # If the new solution is better, update the chromosome and distance
-                    if new_distance < best_distance:
+                    if new_fitness > best_fitness:
                         chromosome = new_chromosome
-                        best_distance = new_distance
+                        best_fitness = new_fitness
                         improved = True  # Set flag to continue outer loop
                         break  # Innermost loop breaks to generate new solutions
                 if improved:
@@ -126,7 +128,7 @@ def three_opt(chromosome, node_cords):
     return chromosome
 
 
-def three_opt_move(chromosome, node_cords, i, j, k):
+def three_opt_move(chromosome, dist_matrix, i, j, k):
     # Extract segments of the chromosome based on indices i, j, and k
     segment1 = chromosome[:i]
     segment2 = chromosome[i:j]
@@ -139,14 +141,14 @@ def three_opt_move(chromosome, node_cords, i, j, k):
     new_chromosome3 = segment1 + segment2 + segment4 + segment3
 
     # Calculate the fitness of the new solutions
-    fitness1 = fitness(new_chromosome1, node_cords)
-    fitness2 = fitness(new_chromosome2, node_cords)
-    fitness3 = fitness(new_chromosome3, node_cords)
+    fitness1 = fitness(new_chromosome1, dist_matrix)
+    fitness2 = fitness(new_chromosome2, dist_matrix)
+    fitness3 = fitness(new_chromosome3, dist_matrix)
 
     # Return the best candidate solution
-    if fitness1 < fitness2 and fitness1 < fitness3:
+    if fitness1 > fitness2 and fitness1 > fitness3:
         return new_chromosome1
-    elif fitness2 < fitness3:
+    elif fitness2 > fitness3:
         return new_chromosome2
     else:
         return new_chromosome3
