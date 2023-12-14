@@ -15,6 +15,9 @@ Remember to use literal copy of arrays when needed.
 
 [] implement Lin–Kernighan heuristic
 [] fix partial_two_opt unit test and uncomment it
+# selection
+
+[] fix tournoment selection
 
 # visualization.py
 
