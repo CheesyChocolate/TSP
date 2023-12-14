@@ -4,6 +4,7 @@
 #   calculate_distance_matrix(node_coords)
 #   calculate_total_distance(chromosome, dist_matrix)
 #   calculate_fitness(chromosome, node_coords)
+#   combine_population_fitness(population, dist_matrix)
 #   trim(chromosome)
 #   untrim(chromosome, trimed_gene=1)
 
@@ -46,6 +47,22 @@ def calculate_total_distance(chromosome, dist_matrix):
 # @return: Type float
 def fitness(chromosome, dist_matrix):
     return 1 / calculate_total_distance(chromosome, dist_matrix)
+
+
+# Combine population with their respective fitness scores
+# @param population: Type list
+# @param dist_matrix: Type Matrix
+# @return: Type list of tuples
+def combine_population_fitness(population, dist_matrix):
+    # Calculate fitness scores for each chromosome
+    fitness_scores = [
+        fitness(chromosome, dist_matrix)
+        for chromosome in population
+    ]
+    # Combine population with their respective fitness scores
+    combined_data = list(zip(population, fitness_scores))
+
+    return combined_data
 
 
 # Trim the chromosome by removing the first and last gene if they are the same
