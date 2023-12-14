@@ -1,29 +1,17 @@
 # This module contains functions for selecting chromosomes for the next generation
 # suppoted algorithms:
-#   - rank selection
+#   - elitist selection
 #   - roulette wheel selection
 #   - tournament selection
 
 import random
-from .data_calculator import fitness
 
 
-# TODO: wrong. page 96 of Eiben's book
-# select chromosomes based on rank selection
-# @param population: Type 2D list (chromosome: Type list)
-# @param distance_matrix: Type matrix
+# select chromosomes based on elitism
+# @param combined_data: Type list (chromosomes x fitness scores)
 # @param num_selected: Type Int
 # @return: top_population: Type 2D list (chromosome x genes)
-def rank_selection(population, distance_matrix, num_selected):
-    # Calculate fitness scores for each chromosome
-    fitness_scores = [
-        fitness(chromosome, distance_matrix)
-        for chromosome in population
-    ]
-
-    # Combine population with their respective fitness scores
-    combined_data = list(zip(population, fitness_scores))
-
+def elitist_selection(combined_data, num_selected):
     # Sort population based on fitness scores
     sorted_chromosomes = sorted(combined_data, key=lambda x: x[1] , reverse=True)
 
@@ -34,18 +22,15 @@ def rank_selection(population, distance_matrix, num_selected):
 
 
 # select chromosomes based on roulette wheel selection
-# @param population: Type 2D list (chromosome: Type list)
-# @param distance_matrix: Type matrix
+# @param combined_data: Type list (chromosomes x fitness scores)
 # @param num_selected: Type Int
 # @return: selected_population: Type 2D list (chromosome x genes)
-def roulette_selection(population, distance_matrix, num_selected):
-    # Calculate fitness scores for each chromosome
-    fitness_scores = [
-        fitness(chromosome, distance_matrix)
-        for chromosome in population
-    ]
+def roulette_selection(combined_data, num_selected):
+    # Get chromosomes from combined data
+    population = [chromosome[0] for chromosome in combined_data]
 
-    # Calculate total fitness
+    # Get fitness scores from combined data
+    fitness_scores = [chromosome[1] for chromosome in combined_data]
     total_fitness = sum(fitness_scores)
 
     # Calculate selection probabilities for each chromosome

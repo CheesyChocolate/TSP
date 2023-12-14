@@ -1,13 +1,14 @@
 import unittest
 from src.module.data_calculator import calculate_distance_matrix
-from src.module.selection import rank_selection
+from src.module.data_calculator import combine_population_fitness
+from src.module.selection import elitist_selection
 from src.module.selection import roulette_selection
 from src.module.selection import tournament_selection
 
 
-class TestGeneticOperations(unittest.TestCase):
+class TestSelection(unittest.TestCase):
 
-    def test_rank_selection(self):
+    def test_elitist_selection(self):
         # Mocking population
         population = [
             [1, 2, 3, 4, 5],
@@ -31,8 +32,11 @@ class TestGeneticOperations(unittest.TestCase):
         # generate the matrix
         dist_matrix = calculate_distance_matrix(node_cords)
 
+        # Combine population with their respective fitness scores
+        combined_data = combine_population_fitness(population, dist_matrix)
+
         # Test the function
-        top_chromosomes = rank_selection(population, dist_matrix, num_selected)
+        top_chromosomes = elitist_selection(combined_data, num_selected)
 
         # Validate the output
         self.assertEqual(len(top_chromosomes), num_selected)
@@ -69,8 +73,11 @@ class TestGeneticOperations(unittest.TestCase):
         # generate the matrix
         dist_matrix = calculate_distance_matrix(node_cords)
 
+        # Combine population with their respective fitness scores
+        combined_data = combine_population_fitness(population, dist_matrix)
+
         # Test the function
-        selected_chromosomes = roulette_selection(population, dist_matrix, num_selected)
+        selected_chromosomes = roulette_selection(combined_data, num_selected)
 
         # Validate the output
         self.assertEqual(len(selected_chromosomes), num_selected)
@@ -102,8 +109,11 @@ class TestGeneticOperations(unittest.TestCase):
         # generate the matrix
         dist_matrix = calculate_distance_matrix(node_cords)
 
+        # Combine population with their respective fitness scores
+        combined_data = combine_population_fitness(population, dist_matrix)
+
         # Test the function
-        selected_chromosomes = tournament_selection(population, dist_matrix, num_selected)
+        selected_chromosomes = tournament_selection(combined_data, num_selected)
 
         # Validate the output
         self.assertEqual(len(selected_chromosomes), num_selected)
