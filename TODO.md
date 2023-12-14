@@ -15,9 +15,12 @@ Remember to use literal copy of arrays when needed.
 
 [] implement Lin–Kernighan heuristic
 [] fix partial_two_opt unit test and uncomment it
+[] fix three_opt, it is putting two of first city at same position
+
 # selection
 
 [] fix tournoment selection
+
 
 # visualization.py
 
