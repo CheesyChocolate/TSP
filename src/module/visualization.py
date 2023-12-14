@@ -38,4 +38,5 @@ def print_chromosome(chromosome, fitness, generation=None):
 
     print('Best Chromosome: ', chromosome)
     print('Fitness: ', fitness)
+    print('Distance: ', 1 / fitness)
     print('-------------------------')
