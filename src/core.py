@@ -87,19 +87,19 @@ def main():
             # add the mutated child to the next population
             next_population.append(child1)
 
+            # replace the population with the new generation
+            population = next_population
+
             # check for termination condition
             if best_chromosome == next_population[0]:
                 consecutive_same_solution_count += 1
             else:
                 consecutive_same_solution_count = 0
 
-            if consecutive_same_solution_count == 5:
-                break
+        if consecutive_same_solution_count == 20:
+            break
 
-            # replace the population with the new generation
-            population = next_population
-
-    # Plot the best chromosome of the final generation
+            # Plot the best chromosome of the final generation
     plot_tsp_cities(node_cords, best_chromosome)
     print_chromosome(best_chromosome, best_fitness)
 
