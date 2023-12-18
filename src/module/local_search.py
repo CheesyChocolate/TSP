@@ -6,8 +6,11 @@
 # - 2-opt with a stopping criterion (partial 2-opt)
 # - 3-opt
 
+import random
 
 from .data_calculator import fitness
+from .data_calculator import trim
+from .data_calculator import untrim
 from .mutation import inversion_mutation
 
 
@@ -96,10 +99,12 @@ def partial_two_opt(chromosome, dist_matrix, max_iterations=20, fitness_threshol
 
 
 # 3-opt local search algorithm
-# @param chromosome: Type list
+# @param parent: Type list
 # @param dist_matrix: type matrix
 # @return: Type list
-def three_opt(chromosome, dist_matrix):
+def three_opt(parent, dist_matrix):
+    chromosome, trimmed_gene = trim(parent)
+
     num_cities = len(chromosome)
     best_fitness = fitness(chromosome, dist_matrix)
 
@@ -125,6 +130,8 @@ def three_opt(chromosome, dist_matrix):
                     break  # Middle loop breaks if improvement occurred
             if improved:
                 break  # Outer loop breaks if improvement occurred
+
+    chromosome = untrim(chromosome, trimmed_gene)
     return chromosome
 
 
