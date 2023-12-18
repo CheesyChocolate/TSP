@@ -58,6 +58,15 @@ def main():
         # print the best chromosome
         print_chromosome(best_chromosome, best_fitness, generation)
 
+        # check for termination condition
+        if fitness(best_chromosome, distance_matrix) == fitness(next_population[0], distance_matrix):
+            consecutive_same_solution_count += 1
+        else:
+            consecutive_same_solution_count = 0
+
+        if consecutive_same_solution_count == 20:
+            break
+
         # create the next generation
         next_population = [best_chromosome]
 
@@ -90,16 +99,7 @@ def main():
             # replace the population with the new generation
             population = next_population
 
-            # check for termination condition
-            if best_chromosome == next_population[0]:
-                consecutive_same_solution_count += 1
-            else:
-                consecutive_same_solution_count = 0
-
-        if consecutive_same_solution_count == 20:
-            break
-
-            # Plot the best chromosome of the final generation
+    # Plot the best chromosome of the final generation
     plot_tsp_cities(node_cords, best_chromosome)
     print_chromosome(best_chromosome, best_fitness)
 
