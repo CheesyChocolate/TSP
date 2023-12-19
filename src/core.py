@@ -8,7 +8,7 @@ from module.data_calculator import fitness
 from module.data_calculator import combine_population_fitness
 from module.file_reader import read_tsp_file
 from module.local_search import two_opt
-from module.local_search import three_opt
+from module.local_search import two_opt_random_subset
 from module.mutation import generate_random_chromosome
 from module.mutation import insert_mutation
 from module.mutation import random_slide_mutation
@@ -83,15 +83,17 @@ def main():
 
             # crossover using cycle crossover
             child1, child2 = cycle_crossover(parent1, parent2)
+            child1 = two_opt_random_subset(child1, distance_matrix)
+            child2 = two_opt_random_subset(child2, distance_matrix)
             next_population.append(child1)
             next_population.append(child2)
 
             if random.random() < 0.5:
                 child1 = insert_mutation(child1)
-                child1 = two_opt(child1, distance_matrix)
+                child1 = two_opt_random_subset(child1, distance_matrix)
             else:
                 child1 = random_slide_mutation(child1)
-                child1 = two_opt(child1, distance_matrix)
+                child1 = two_opt_random_subset(child1, distance_matrix)
 
             # add the mutated child to the next population
             next_population.append(child1)

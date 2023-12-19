@@ -4,6 +4,7 @@
 # supported algorithms:
 # - 2-opt
 # - 2-opt with a stopping criterion (partial 2-opt)
+# - 2-opt with on a random subset
 # - 3-opt
 
 import random
@@ -96,6 +97,37 @@ def partial_two_opt(chromosome, dist_matrix, max_iterations=20, fitness_threshol
         current_fitness += best_improvement # Update the current fitness
 
     return chromosome
+
+
+# Function to optimize a random subset of given chromosome using 2-opt
+# @param parent: Type list
+# @param dist_matrix: type matrix
+# @return: Type list
+def two_opt_random_subset(parent, dist_matrix):
+    chromosome, trimmed_gene = trim(parent)
+
+    # Calculate the subset length as 38% (taken from golden ratio) of
+    # chromosome length or maximum of 30
+    subset_length = min(int(len(chromosome) * 0.38), 30)
+
+    # Ensure the subset length is within bounds
+    subset_length = min(subset_length, len(chromosome))
+
+    # Select a random starting index for the subset
+    start_index = random.randint(0, len(chromosome) - subset_length)
+
+    # Extract the random subset from the chromosome
+    subset = chromosome[start_index:start_index + subset_length]
+
+    # Optimize the subset using the 2-opt algorithm
+    optimized_subset = two_opt(subset, dist_matrix)
+
+    # Replace the subset in the original chromosome with the optimized subset
+    new_chromosome = chromosome[:start_index] + optimized_subset + chromosome[start_index + subset_length:]
+
+    new_chromosome = untrim(new_chromosome, trimmed_gene)
+
+    return new_chromosome
 
 
 # 3-opt local search algorithm
