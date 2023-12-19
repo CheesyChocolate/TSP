@@ -2,6 +2,7 @@
 # suppoted algorithms:
 #   - elitist selection
 #   - roulette wheel selection
+#   - rank selection
 #   - tournament selection
 
 import random
@@ -48,6 +49,35 @@ def roulette_selection(combined_data, num_selected):
             cumulative_prob += prob
             if rand_num <= cumulative_prob:
                 selected_chromosomes.append(population[i])
+                break
+
+    return selected_chromosomes
+
+
+# Select chromosomes based on rank selection
+# @param combined_data: Type list (chromosomes x fitness scores)
+# @param num_selected: Type Int
+# @return: selected_population: Type 2D list (chromosome x genes)
+def rank_selection(combined_data, num_selected):
+    # Sort population based on fitness scores
+    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1], reverse=True)
+
+    # Calculate selection probabilities for each chromosome based on ranks
+    ranks = [i + 1 for i in range(len(sorted_chromosomes))]  # Assign ranks starting from 1
+    selection_probabilities = [rank / sum(ranks) for rank in ranks]
+
+    # Perform rank-based selection
+    selected_chromosomes = []
+    for _ in range(num_selected):
+        # Generate a random number between 0 and 1
+        rand_num = random.random()
+
+        # Select a chromosome based on the ranking probabilities
+        cumulative_prob = 0
+        for i, prob in enumerate(selection_probabilities):
+            cumulative_prob += prob
+            if rand_num <= cumulative_prob:
+                selected_chromosomes.append(sorted_chromosomes[i][0])  # Append selected chromosome
                 break
 
     return selected_chromosomes

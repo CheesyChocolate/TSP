@@ -13,7 +13,7 @@ from module.mutation import generate_random_chromosome
 from module.mutation import insert_mutation
 from module.mutation import random_slide_mutation
 from module.selection import elitist_selection
-from module.selection import elitist_selection as rank_selection
+from module.selection import rank_selection
 from module.selection import roulette_selection
 from module.visualization import plot_tsp_cities
 from module.visualization import print_chromosome
