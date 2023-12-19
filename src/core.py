@@ -43,6 +43,7 @@ def main():
     # Create the initial population
     population = [generate_random_chromosome(node_cords) for _ in range(100)]
 
+    next_population = population
     best_chromosome = None
     consecutive_same_solution_count = 0
 
