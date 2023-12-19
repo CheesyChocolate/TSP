@@ -7,7 +7,7 @@ from module.data_calculator import calculate_distance_matrix
 from module.data_calculator import fitness
 from module.data_calculator import combine_population_fitness
 from module.file_reader import read_tsp_file
-from module.local_search import two_opt
+from module.local_search import two_opt as three_opt # use 2-opt while testing(can be changed to 3-opt)
 from module.local_search import two_opt_random_subset
 from module.mutation import generate_random_chromosome
 from module.mutation import insert_mutation
