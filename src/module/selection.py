@@ -7,6 +7,8 @@
 
 import random
 
+from .data_calculator import fitness
+
 
 # select chromosomes based on elitism
 # @param combined_data: Type list (chromosomes x fitness scores)
