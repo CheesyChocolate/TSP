@@ -8,10 +8,11 @@
 import matplotlib.pyplot as plt
 
 
-# @param tsp_data: type tsp_data dict
+# @param node_cords: type node_cords dict
 # @param connections: type list
-def plot_tsp_cities(tsp_data, chromosome=None):
-    cities = tsp_data
+# @param fitness: type float
+def plot_tsp_cities(node_cords, chromosome=None, fitness=None):
+    cities = node_cords
     x = [city[0] for city in cities.values()]
     y = [city[1] for city in cities.values()]
 
@@ -26,7 +27,10 @@ def plot_tsp_cities(tsp_data, chromosome=None):
 
     plt.xlabel('X Coordinate')
     plt.ylabel('Y Coordinate')
-    plt.title('TSP Cities')
+    if fitness:
+        plt.title('TSP Solution Path\nFitness: ' + str(fitness))
+    else:
+        plt.title('TSP Cities')
     plt.legend()
     plt.grid(True)
     plt.show()

@@ -103,7 +103,7 @@ def main():
             population = next_population
 
     # Plot the best chromosome of the final generation
-    plot_tsp_cities(node_cords, best_chromosome)
+    plot_tsp_cities_dynamic(node_cords, best_chromosome, best_fitness)
     print_chromosome(best_chromosome, best_fitness)
 
     print("Applyong 3-opt on the best chromosome...")
@@ -112,7 +112,7 @@ def main():
     best_chromosome = three_opt(best_chromosome, distance_matrix)
 
     # Plot the best chromosome of the final generation
-    plot_tsp_cities(node_cords, best_chromosome)
+    plot_tsp_cities(node_cords, best_chromosome, best_fitness)
     print_chromosome(best_chromosome, fitness(best_chromosome, distance_matrix))
 
 
