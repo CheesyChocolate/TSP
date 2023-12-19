@@ -38,9 +38,9 @@ def two_opt(chromosome, dist_matrix):
                     chromosome = new_chromosome
                     best_fitness = new_fitness
                     improved = True
-                    break
-            if improved:
-                break
+                    # break # uncomment these 3 lines to improve the performance
+            # if improved:
+                # break
 
     return chromosome
 
