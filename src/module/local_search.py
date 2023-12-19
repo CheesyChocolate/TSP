@@ -107,8 +107,8 @@ def two_opt_random_subset(parent, dist_matrix):
     chromosome, trimmed_gene = trim(parent)
 
     # Calculate the subset length as 38% (taken from golden ratio) of
-    # chromosome length or maximum of 30
-    subset_length = min(int(len(chromosome) * 0.38), 30)
+    # chromosome length or maximum of 50
+    subset_length = min(int(len(chromosome) * 0.38), 50)
 
     # Ensure the subset length is within bounds
     subset_length = min(subset_length, len(chromosome))
