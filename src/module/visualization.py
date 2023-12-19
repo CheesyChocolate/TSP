@@ -35,6 +35,19 @@ def plot_tsp_cities(node_cords, chromosome=None, fitness=None):
     plt.grid(True)
     plt.show()
 
+# Plots the progression of best fitness values across generations or iterations.
+# @param fitness_values: type list
+def plot_fitness_progress(fitness_values):
+    generations = range(1, len(fitness_values) + 1)
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(generations, fitness_values, marker='o', linestyle='-', color='blue')
+    plt.xlabel('Generations/Iterations')
+    plt.ylabel('Best Fitness')
+    plt.title('Progression of Best Fitness')
+    plt.grid(True)
+    plt.show()
+
 
 def print_chromosome(chromosome, fitness, generation=None):
     if generation:

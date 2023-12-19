@@ -16,6 +16,7 @@ from module.selection import elitist_selection
 from module.selection import rank_selection
 from module.selection import roulette_selection
 from module.visualization import plot_tsp_cities
+from module.visualization import plot_fitness_progress
 from module.visualization import print_chromosome
 
 
@@ -37,15 +38,13 @@ def main():
     # calculate the distance matrix
     distance_matrix = calculate_distance_matrix(node_cords)
 
-    # plot the cities on a graph
-    plot_tsp_cities(node_cords)
-
     # Create the initial population
     population = [generate_random_chromosome(node_cords) for _ in range(100)]
 
     next_population = population
     best_chromosome = None
     consecutive_same_solution_count = 0
+    best_fitness_history = []
 
     for generation in range(100):
 
@@ -55,6 +54,7 @@ def main():
         # find the best chromosome with elitist selection
         best_chromosome = elitist_selection(combined_data, 1)[0]
         best_fitness = fitness(best_chromosome, distance_matrix)
+        best_fitness_history.append(best_fitness)
 
         # print the best chromosome
         print_chromosome(best_chromosome, best_fitness, generation)
@@ -105,6 +105,9 @@ def main():
     # Plot the best chromosome of the final generation
     plot_tsp_cities_dynamic(node_cords, best_chromosome, best_fitness)
     print_chromosome(best_chromosome, best_fitness)
+
+    # Plot the fitness history
+    plot_fitness_progress(best_fitness_history)
 
     print("Applyong 3-opt on the best chromosome...")
 
