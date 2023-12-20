@@ -103,7 +103,7 @@ def main():
             population = next_population
 
     # Plot the best chromosome of the final generation
-    plot_tsp_cities_dynamic(node_cords, best_chromosome, best_fitness)
+    plot_tsp_cities(node_cords, best_chromosome, best_fitness)
     print_chromosome(best_chromosome, best_fitness)
 
     # Plot the fitness history
