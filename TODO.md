@@ -25,6 +25,7 @@ Remember to use literal copy of arrays when needed.
 # visualization.py
 
 [] unit tests for print_chromosome
+[] show more informatio on fitness graph(ie variance, mean, deviat)
 
 
 # potential useful libraries
