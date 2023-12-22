@@ -125,6 +125,9 @@ def main():
     # Apply 3-opt on the best chromosome
     best_chromosome = three_opt(best_chromosome, distance_matrix)
 
+    # calculate the fitness of the best chromosome
+    best_fitness = fitness(best_chromosome, distance_matrix)
+
     # Plot the best chromosome of the final generation after applying 3-opt
     plot_tsp_cities_dynamic(node_cords=node_cords,
                             chromosome=best_chromosome,
