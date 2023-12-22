@@ -64,11 +64,13 @@ def rank_selection(combined_data, num_selected):
     # Sort population based on fitness scores
     sorted_chromosomes = sorted(combined_data, key=lambda x: x[1], reverse=True)
 
-    # Calculate selection probabilities for each chromosome based on ranks
-    ranks = [i + 1 for i in range(len(sorted_chromosomes))]  # Assign ranks starting from 1
-    selection_probabilities = [rank / sum(ranks) for rank in ranks]
+    # Calculate ranks for chromosomes
+    ranks = list(range(1, len(sorted_chromosomes) + 1))
 
-    # Perform rank-based selection
+    # Calculate selection probabilities using rank-based scaling and normalization
+    total_rank = sum(ranks)
+    selection_probabilities = [(rank / total_rank) for rank in ranks]
+
     selected_chromosomes = []
     for _ in range(num_selected):
         # Generate a random number between 0 and 1
