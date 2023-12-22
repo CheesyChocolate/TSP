@@ -48,6 +48,7 @@ def main():
     best_chromosome = None
     consecutive_same_solution_count = 0
     best_fitness_history = []
+    average_fitness_history = []
 
     for generation in range(100):
 
@@ -58,6 +59,10 @@ def main():
         best_chromosome = elitist_selection(combined_data, 1)[0]
         best_fitness = fitness(best_chromosome, distance_matrix)
         best_fitness_history.append(best_fitness)
+
+        # calculate the average fitness of the population
+        average_fitness = sum([fitness(chromosome, distance_matrix) for chromosome in population]) / len(population)
+        average_fitness_history.append(average_fitness)
 
         # print the best chromosome
         figure, axis = plot_tsp_cities_dynamic(node_cords,
@@ -137,7 +142,7 @@ def main():
     print_chromosome(best_chromosome, fitness(best_chromosome, distance_matrix))
 
     # Plot the fitness history
-    plot_fitness_progress(best_fitness_history)
+    plot_fitness_progress(best_fitness_history, average_fitness_history)
 
 
 if __name__ == "__main__":
