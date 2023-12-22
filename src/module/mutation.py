@@ -124,8 +124,8 @@ def random_slide_mutation(chromosome):
     # Remove the sub-chromosome from the chromosome
     trimmed_chromosome = trimmed_chromosome[:pos1] + trimmed_chromosome[pos2 + 1:]
 
-    # Select a random position in the chromosome
-    pos3 = random.randint(0, len(trimmed_chromosome))
+    # Select a random position in the chromosome with max distance of 2
+    pos3 = random.randint(max(0, pos1 - 2), min(len(trimmed_chromosome), pos1 + 2))
 
     # Insert the sub-chromosome into the chromosome
     mutated_chromosome = trimmed_chromosome[:pos3] + sub_chromosome + trimmed_chromosome[pos3:]
