@@ -15,7 +15,7 @@ from module.mutation import random_slide_mutation
 from module.selection import elitist_selection
 from module.selection import rank_selection
 from module.selection import roulette_selection
-from module.visualization import plot_tsp_cities
+from module.visualization import plot_tsp_cities_dynamic
 from module.visualization import plot_fitness_progress
 from module.visualization import print_chromosome
 
@@ -34,6 +34,9 @@ def main():
 
     # get the coords from the tsp data
     node_cords = tsp_data['NODE_COORD_SECTION']
+
+    # plot the cities
+    figure, axis = plot_tsp_cities_dynamic(node_cords)
 
     # calculate the distance matrix
     distance_matrix = calculate_distance_matrix(node_cords)
@@ -57,6 +60,12 @@ def main():
         best_fitness_history.append(best_fitness)
 
         # print the best chromosome
+        figure, axis = plot_tsp_cities_dynamic(node_cords,
+                                               best_chromosome,
+                                               best_fitness,
+                                               generation,
+                                               figure,
+                                               axis)
         print_chromosome(best_chromosome, best_fitness, generation)
 
         # check for termination condition
@@ -103,21 +112,29 @@ def main():
             population = next_population
 
     # Plot the best chromosome of the final generation
-    plot_tsp_cities(node_cords, best_chromosome, best_fitness)
+    figure, axis = plot_tsp_cities_dynamic(node_cords,
+                                           best_chromosome,
+                                           best_fitness,
+                                           figure=figure,
+                                           axis=axis
+                                           )
     print_chromosome(best_chromosome, best_fitness)
-
-    # Plot the fitness history
-    plot_fitness_progress(best_fitness_history)
 
     print("Applyong 3-opt on the best chromosome...")
 
     # Apply 3-opt on the best chromosome
     best_chromosome = three_opt(best_chromosome, distance_matrix)
 
-    # Plot the best chromosome of the final generation
-    plot_tsp_cities(node_cords, best_chromosome, best_fitness)
+    # Plot the best chromosome of the final generation after applying 3-opt
+    plot_tsp_cities_dynamic(node_cords=node_cords,
+                            chromosome=best_chromosome,
+                            fitness=best_fitness,
+                            Title='Best chromosome after applying 3-opt'
+                            )
     print_chromosome(best_chromosome, fitness(best_chromosome, distance_matrix))
 
+    # Plot the fitness history
+    plot_fitness_progress(best_fitness_history)
 
 
 if __name__ == "__main__":
