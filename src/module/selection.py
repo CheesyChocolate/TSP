@@ -62,7 +62,7 @@ def roulette_selection(combined_data, num_selected):
 # @return: selected_population: Type 2D list (chromosome x genes)
 def rank_selection(combined_data, num_selected):
     # Sort population based on fitness scores
-    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1], reverse=True)
+    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1])
 
     # Calculate ranks for chromosomes
     ranks = list(range(1, len(sorted_chromosomes) + 1))
