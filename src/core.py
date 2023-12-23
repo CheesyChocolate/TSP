@@ -76,7 +76,7 @@ def main():
                                                generation,
                                                figure,
                                                axis)
-        print_chromosome(best_chromosome, best_fitness, generation)
+        print_chromosome(best_chromosome, best_fitness, generation, average_fitness, worst_fitness)
 
         # create the next generation
         next_population = [best_chromosome]
@@ -131,7 +131,7 @@ def main():
                                            figure=figure,
                                            axis=axis
                                            )
-    print_chromosome(best_chromosome, best_fitness)
+    print_chromosome(best_chromosome, best_fitness, generation='Final')
 
     print("Applyong 3-opt on the best chromosome...")
 

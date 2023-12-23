@@ -107,11 +107,20 @@ def plot_fitness_progress(fitness_values, average_fitness_history, worst_fitness
     plt.show()
 
 
-def print_chromosome(chromosome, fitness, generation=None):
+def print_chromosome(chromosome, fitness, generation=None, average_fitness=None, worst_fitness=None):
     if generation:
         print('Generation: ', generation)
+        print('-------------------------')
 
     print('Best Chromosome: ', chromosome)
-    print('Fitness: ', fitness)
-    print('Distance: ', 1 / fitness)
+    print('Best Chromosome Fitness: ', fitness)
+    print('Best Chromosome Distance: ', 1 / fitness)
     print('-------------------------')
+    if average_fitness:
+        print('Average Fitness: ', average_fitness)
+        print('Average Distance: ', 1 / average_fitness)
+        print('-------------------------')
+    if worst_fitness:
+        print('Worst Fitness: ', worst_fitness)
+        print('Worst Distance: ', 1 / worst_fitness)
+    print('\n=========================\n=========================\n')
