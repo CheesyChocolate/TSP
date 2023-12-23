@@ -7,25 +7,25 @@ Remember to use literal copy of arrays when needed.
 
 # other
 
-[] zip chromosome and fitness. so calculation is done only one time
-[] selection based on idea while talking with alperen, 8se push and pop
+* selection based on idea while talking with alperen, 8se push and pop
+* write test unit for the remaining functions
 
 
 # local_search.py
 
-[] implement Lin–Kernighan heuristic
-[] fix partial_two_opt unit test and uncomment it
-[] fix three_opt, it is putting two of first city at same position
+* implement Lin–Kernighan heuristic
+* fix partial_two_opt unit test and uncomment it
+* fix three_opt, it is putting two of first city at same position
 
 # selection
 
-[] fix tournoment selection
+* fix tournoment selection
 
 
 # visualization.py
 
-[] unit tests for print_chromosome
-[] show more informatio on fitness graph(ie variance, mean, deviat)
+* unit tests for print_chromosome
+* show more informatio on fitness graph(ie variance, mean, deviat)
 
 
 # potential useful libraries
