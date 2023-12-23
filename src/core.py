@@ -44,7 +44,7 @@ def main():
     # Create the initial population
     population = [generate_random_chromosome(node_cords) for _ in range(100)]
 
-    next_population = population
+    next_population = []
     best_chromosome = None
     consecutive_same_solution_count = 0
     best_fitness_history = []
@@ -78,15 +78,6 @@ def main():
                                                axis)
         print_chromosome(best_chromosome, best_fitness, generation)
 
-        # check for termination condition
-        if fitness(best_chromosome, distance_matrix) == fitness(next_population[0], distance_matrix):
-            consecutive_same_solution_count += 1
-        else:
-            consecutive_same_solution_count = 0
-
-        if consecutive_same_solution_count == 20:
-            break
-
         # create the next generation
         next_population = [best_chromosome]
 
@@ -103,23 +94,35 @@ def main():
 
             # crossover using cycle crossover
             child1, child2 = cycle_crossover(parent1, parent2)
-            child1 = two_opt_random_subset(child1, distance_matrix)
-            child2 = two_opt_random_subset(child2, distance_matrix)
-            next_population.append(child1)
-            next_population.append(child2)
 
             if random.random() < 0.5:
-                child1 = insert_mutation(child1)
-                child1 = two_opt_random_subset(child1, distance_matrix)
+                child3 = insert_mutation(child1)
+                child4 = insert_mutation(child2)
             else:
-                child1 = random_slide_mutation(child1)
-                child1 = two_opt_random_subset(child1, distance_matrix)
+                child3 = random_slide_mutation(child1)
+                child4 = random_slide_mutation(child2)
 
-            # add the mutated child to the next population
-            next_population.append(child1)
+            # only add the best child to the next generation
+            child = max([child1, child2, child3, child4], key=lambda x: fitness(x, distance_matrix))
 
-            # replace the population with the new generation
-            population = next_population
+            # apply 2-opt on the child
+            # child = two_opt_random_subset(child, distance_matrix)
+
+            # only add the child if it is not already in the population
+            if child not in next_population:
+                next_population.append(child)
+
+        # replace the population with the new generation
+        population = next_population
+
+        # check for termination condition
+        if best_fitness_history[generation] == best_fitness_history[generation - 1]:
+            consecutive_same_solution_count += 1
+        else:
+            consecutive_same_solution_count = 0
+
+        if consecutive_same_solution_count == 5:
+            break
 
     # Plot the best chromosome of the final generation
     figure, axis = plot_tsp_cities_dynamic(node_cords,
