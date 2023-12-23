@@ -49,6 +49,7 @@ def main():
     consecutive_same_solution_count = 0
     best_fitness_history = []
     average_fitness_history = []
+    worst_fitness_history = []
 
     for generation in range(100):
 
@@ -63,6 +64,10 @@ def main():
         # calculate the average fitness of the population
         average_fitness = sum([fitness(chromosome, distance_matrix) for chromosome in population]) / len(population)
         average_fitness_history.append(average_fitness)
+
+        # calculate the worst fitness of the population
+        worst_fitness = min([fitness(chromosome, distance_matrix) for chromosome in population])
+        worst_fitness_history.append(worst_fitness)
 
         # print the best chromosome
         figure, axis = plot_tsp_cities_dynamic(node_cords,
@@ -142,7 +147,7 @@ def main():
     print_chromosome(best_chromosome, fitness(best_chromosome, distance_matrix))
 
     # Plot the fitness history
-    plot_fitness_progress(best_fitness_history, average_fitness_history)
+    plot_fitness_progress(best_fitness_history, average_fitness_history, worst_fitness_history)
 
 
 if __name__ == "__main__":

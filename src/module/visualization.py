@@ -92,12 +92,13 @@ def plot_tsp_cities_dynamic(node_cords,
 
 # Plots the progression of best fitness values across generations or iterations.
 # @param fitness_values: type list
-def plot_fitness_progress(fitness_values, average_fitness_history):
+def plot_fitness_progress(fitness_values, average_fitness_history, worst_fitness_history):
     generations = range(1, len(fitness_values) + 1)
 
     plt.figure(figsize=(8, 6))
     plt.plot(generations, fitness_values, marker='o', linestyle='-', color='blue', label='Best Fitness')
     plt.plot(generations, average_fitness_history, marker='o', linestyle='-', color='red', label='Average Fitness')
+    plt.plot(generations, worst_fitness_history, marker='o', linestyle='-', color='green', label='Worst Fitness')
     plt.xlabel('Generations/Iterations')
     plt.ylabel('Best Fitness')
     plt.title('Progression of Best Fitness')
