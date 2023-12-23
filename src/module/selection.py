@@ -1,30 +1,22 @@
 # This module contains functions for selecting chromosomes for the next generation
 # suppoted algorithms:
-#   - rank selection
+#   - elitist selection
 #   - roulette wheel selection
+#   - rank selection
 #   - tournament selection
 
 import random
+
 from .data_calculator import fitness
 
 
-# select chromosomes based on rank selection
-# @param population: Type 2D list (chromosome: Type list)
-# @param tsp_data: Type dict (NODE_COORD_SECTION)
+# select chromosomes based on elitism
+# @param combined_data: Type list (chromosomes x fitness scores)
 # @param num_selected: Type Int
 # @return: top_population: Type 2D list (chromosome x genes)
-def rank_selection(population, tsp_data, num_selected):
-    # Calculate fitness scores for each chromosome
-    fitness_scores = [
-        fitness(chromosome, tsp_data['NODE_COORD_SECTION'])
-        for chromosome in population
-    ]
-
-    # Combine population with their respective fitness scores
-    combined_data = list(zip(population, fitness_scores))
-
+def elitist_selection(combined_data, num_selected):
     # Sort population based on fitness scores
-    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1])  # Sort based on fitness scores
+    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1] , reverse=True)
 
     # Get the top chromosomes
     top_chromosomes = [chromosome[0] for chromosome in sorted_chromosomes[:num_selected]]
@@ -33,18 +25,15 @@ def rank_selection(population, tsp_data, num_selected):
 
 
 # select chromosomes based on roulette wheel selection
-# @param population: Type 2D list (chromosome: Type list)
-# @param tsp_data: Type dict (NODE_COORD_SECTION)
+# @param combined_data: Type list (chromosomes x fitness scores)
 # @param num_selected: Type Int
 # @return: selected_population: Type 2D list (chromosome x genes)
-def roulette_selection(population, tsp_data, num_selected):
-    # Calculate fitness scores for each chromosome
-    fitness_scores = [
-        fitness(chromosome, tsp_data['NODE_COORD_SECTION'])
-        for chromosome in population
-    ]
+def roulette_selection(combined_data, num_selected):
+    # Get chromosomes from combined data
+    population = [chromosome[0] for chromosome in combined_data]
 
-    # Calculate total fitness
+    # Get fitness scores from combined data
+    fitness_scores = [chromosome[1] for chromosome in combined_data]
     total_fitness = sum(fitness_scores)
 
     # Calculate selection probabilities for each chromosome
@@ -67,12 +56,43 @@ def roulette_selection(population, tsp_data, num_selected):
     return selected_chromosomes
 
 
+# Select chromosomes based on rank selection
+# @param combined_data: Type list (chromosomes x fitness scores)
+# @param num_selected: Type Int
+# @return: selected_population: Type 2D list (chromosome x genes)
+def rank_selection(combined_data, num_selected):
+    # Sort population based on fitness scores
+    sorted_chromosomes = sorted(combined_data, key=lambda x: x[1])
+
+    # Calculate ranks for chromosomes
+    ranks = list(range(1, len(sorted_chromosomes) + 1))
+
+    # Calculate selection probabilities using rank-based scaling and normalization
+    total_rank = sum(ranks)
+    selection_probabilities = [(rank / total_rank) for rank in ranks]
+
+    selected_chromosomes = []
+    for _ in range(num_selected):
+        # Generate a random number between 0 and 1
+        rand_num = random.random()
+
+        # Select a chromosome based on the ranking probabilities
+        cumulative_prob = 0
+        for i, prob in enumerate(selection_probabilities):
+            cumulative_prob += prob
+            if rand_num <= cumulative_prob:
+                selected_chromosomes.append(sorted_chromosomes[i][0])  # Append selected chromosome
+                break
+
+    return selected_chromosomes
+
+
 # select chromosomes based on tournament selection
 # @param population: Type 2D list (chromosome: Type list)
-# @param tsp_data: Type dict (NODE_COORD_SECTION)
+# @param distance_matrix: Type matrix
 # @param num_selected: Type Int
 # @param tournament_size: Type Int
-def tournament_selection(population, tsp_data, num_selected, tournament_size=3):
+def tournament_selection(population, distance_matrix, num_selected, tournament_size=3):
     selected_chromosomes = []
 
     while len(selected_chromosomes) < num_selected:
@@ -81,7 +101,7 @@ def tournament_selection(population, tsp_data, num_selected, tournament_size=3):
 
         # Calculate fitness scores for tournament contestants
         contestant_fitness = [
-            fitness(contestant, tsp_data['NODE_COORD_SECTION'])
+            fitness(contestant, distance_matrix)
             for contestant in tournament_contestants
         ]
 

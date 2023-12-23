@@ -1,6 +1,7 @@
 import unittest
 
-from src.module.data_calculator import fitness
+from src.module.data_calculator import calculate_distance_matrix
+from src.module.data_calculator import calculate_total_distance
 from src.module.data_calculator import trim
 from src.module.data_calculator import untrim
 
@@ -20,13 +21,18 @@ class TestDataCalculator(unittest.TestCase):
         chromosome = [3, 1, 5, 2, 4]
 
         # Calculate the total distance for the sample chromosome
-        total_distance = fitness(chromosome, node_coords)
+        total_distance = calculate_total_distance(chromosome, calculate_distance_matrix(node_coords))
 
         # Expected total distance for the sample chromosome (calculated manually)
         expected_distance = 1672.110704073914
 
         # Check if the calculated distance matches the expected distance (with a small tolerance)
         self.assertAlmostEqual(total_distance, expected_distance, places=5)
+
+        # check if the inverted chromosome has the same distance
+        inverted_chromosome = chromosome[::-1]
+        inverted_total_distance = calculate_total_distance(inverted_chromosome, calculate_distance_matrix(node_coords))
+        self.assertAlmostEqual(inverted_total_distance, expected_distance, places=5)
 
     def test_trim_same_first_last_genes(self):
         # Test trimming when first and last genes are the same

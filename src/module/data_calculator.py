@@ -1,34 +1,69 @@
 # This module contains functions for calculation related to
 # the data in the TSP problem
 # Implemented functions:
-#   calculate_distance(point1, point2)
-#   fitness(chromosome, node_coords)
+#   calculate_distance_matrix(node_coords)
+#   calculate_total_distance(chromosome, dist_matrix)
+#   calculate_fitness(chromosome, node_coords)
+#   combine_population_fitness(population, dist_matrix)
 #   trim(chromosome)
 #   untrim(chromosome, trimed_gene=1)
 
 # importing sqrt function from numpy module for better performance
-from numpy import sqrt
+from scipy.spatial import distance_matrix
 
 
-# Calculate Euclidean distance between two points
-def calculate_distance(point1, point2):
-    # FUN COMMENT: I wished I wrote this in C. I wanted to use fast inverse square root :(
-    # FUN COMMENT: this was my only chance to use it.
-    return sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
+# Credit: Mahyar Teymournezhad for the idea of storing city distances in a matrix
+# Calculate the distance between two points
+# This function should be separated from 'calculate_distance_matrix'
+# since we need this calculation once per run (not once per generation)
+# @param point1: Type Dict (NODE_COORD_SECTION)
+# @return: Type matrix
+def calculate_distance_matrix(node_coords):
+    # Convert node coordinates to a list
+    coords_list = list(node_coords.values())
+    # Compute the distance matrix using scipy's distance_matrix function
+    dist_matrix = distance_matrix(coords_list, coords_list)
+
+    return dist_matrix
 
 
-# Calculate total distance traveled for the given chromosome
+# Calculate the distance of the given chromosome
 # @param chromosome: Type list
-# @param node_coords: Type dict (NODE_COORD_SECTION)
+# @param dist_matrix: Type Matrix
 # @return: Type float
-def fitness(chromosome, node_coords):
+def calculate_total_distance(chromosome, dist_matrix):
     total_distance = 0.0
-
-    # Calculate total distance by summing distances between consecutive cities in the chromosome
     for i in range(len(chromosome) - 1):
-        total_distance += calculate_distance(node_coords[chromosome[i]], node_coords[chromosome[i+1]])
-
+        # TODO: -1 is used to map the node ID to the index of the distance in the matrix
+        #  This is not a good practice, find a better way to do this
+        #  What is the node ID is not in order? or ID is not number? or ID starts from 0?
+        #  a dictionary?
+        total_distance += dist_matrix[chromosome[i] - 1][chromosome[i + 1] - 1]
     return total_distance
+
+
+# Calculate fitness for a given chromosome
+# @param chromosome: Type list
+# @param dist_matrix: Type Matrix
+# @return: Type float
+def fitness(chromosome, dist_matrix):
+    return 1 / calculate_total_distance(chromosome, dist_matrix)
+
+
+# Combine population with their respective fitness scores
+# @param population: Type list
+# @param dist_matrix: Type Matrix
+# @return: Type list of tuples
+def combine_population_fitness(population, dist_matrix):
+    # Calculate fitness scores for each chromosome
+    fitness_scores = [
+        fitness(chromosome, dist_matrix)
+        for chromosome in population
+    ]
+    # Combine population with their respective fitness scores
+    combined_data = list(zip(population, fitness_scores))
+
+    return combined_data
 
 
 # Trim the chromosome by removing the first and last gene if they are the same

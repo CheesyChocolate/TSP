@@ -5,32 +5,31 @@ another variable. This is why I was getting weird results.
 
 Remember to use literal copy of arrays when needed.
 
-# data_calculator.py
+# other
 
-[] implement `calculate_distance_matrix` function using `scipy.spatial.distance_matrix`
-[] implement `calculate_distance_matrix` function using `pandas.DataFrame`
-[] implement `calculate_distance_matrix` function using `networkx.Graph`
-[] store the distance matrix in a meory and use it instead of recalculating distances every time
+* selection based on idea while talking with alperen, 8se push and pop
+* write test unit for the remaining functions
+
 
 # local_search.py
 
-[] implement Lin–Kernighan heuristic
-[] implement 3-opt with a stopping criterion
+* implement Lin–Kernighan heuristic
+* fix partial_two_opt unit test and uncomment it
+* fix three_opt, it is putting two of first city at same position
+
+# selection
+
+* fix tournoment selection
+
 
 # visualization.py
 
-[] unit tests for print_chromosome
+* unit tests for print_chromosome
+* show more informatio on fitness graph(ie variance, mean, deviat)
 
-# crossover.py
-
-[] fix the buggy `cycle_crossover` function
 
 # potential useful libraries
 
-[scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance_matrix.html#scipy.spatial.distance_matrix)
-[pandas](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
-[networkx](https://networkx.github.io/documentation/stable/reference/classes/graph.html)
 [tqdm](https://tqdm.github.io/docs/tqdm/)
 [cloudpickle](https://pypi.org/project/cloudpickle/)
-
 https://github.com/ahmedfgad/GeneticAlgorithmPython/blob/master/pygad/visualize/plot.py

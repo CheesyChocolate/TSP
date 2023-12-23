@@ -1,0 +1,12 @@
+tsp_file: berlin52.tsp # an existing file in excutation directory or sub directory
+population:
+  size: 100 # 1 - Inf
+  close_loop: True  # True - False
+generation_count: 100 # 1 - Inf
+elitist_selection_count: 2 # 1 - less than population size
+rank_roulette_selection_ratio: 0.5 # 0 - 1
+insert_slide_mutation_ratio: 0.5  # 0 - 1
+two_opt_random_subset: False # True - False
+allow_duplicate: False # True - False
+consecutive_same_solution_count: 10  # 1 - Inf (less than population size make sence)
+final_3_opt: True # True - False

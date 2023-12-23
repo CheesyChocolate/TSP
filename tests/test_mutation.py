@@ -1,6 +1,6 @@
 import unittest
 
-from src.module.mutation import generate_random_chromosome
+from src.module.mutation import generate_random_population
 from src.module.mutation import swap_mutation
 from src.module.mutation import inversion_mutation
 from src.module.mutation import insert_mutation
@@ -20,7 +20,7 @@ class TestMutation(unittest.TestCase):
         }
 
         # Generate a random chromosome
-        random_chromosome = generate_random_chromosome(node_coords)
+        random_chromosome = generate_random_population(node_coords, 1)[0]
 
         num_cities = len(node_coords)
         # Ensure the chromosome has the correct number of cities

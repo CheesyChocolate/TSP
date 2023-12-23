@@ -9,27 +9,30 @@
 
 import random
 
-
 from .data_calculator import trim
 from .data_calculator import untrim
 
 
-# generate random chromosome
-# @param tsp_data: Type dict (NODE_COORD_SECTION)
-# @return: Type list
-def generate_random_chromosome(tsp_data, close_loop=True):
-    # Extract city IDs from the dictionary keys
-    chromosome = list(tsp_data.keys())
-    # if a close loop is required, add the first city to the end of the chromosome
-    if close_loop:
-        chromosome.append(chromosome[0])
-    # trim the chromosome (the trim function handles either the loop is closed or not)
-    trimmed_chromosome, trimmed_gene = trim(chromosome)
-    # shuffle the chromosome
-    random.shuffle(trimmed_chromosome)
-    # untrim the chromosome
-    untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
-    return untrimmed_chromosome
+# generate random population
+# @param tsp_data: node_cords
+def generate_random_population(node_cords, size=100, close_loop=True):
+    population = []
+    for _ in range(size):
+        # Extract city IDs from the dictionary keys
+        chromosome = list(node_cords.keys())
+        # if a close loop is required, add the first city to the end of the chromosome
+        if close_loop:
+            chromosome.append(chromosome[0])
+        # trim the chromosome (the trim function handles either the loop is closed or not)
+        trimmed_chromosome, trimmed_gene = trim(chromosome)
+        # shuffle the chromosome
+        random.shuffle(trimmed_chromosome)
+        # untrim the chromosome
+        untrimmed_chromosome = untrim(trimmed_chromosome, trimmed_gene)
+        # add the chromosome to the population
+        population.append(untrimmed_chromosome)
+
+    return population
 
 
 # swap mutation
@@ -124,8 +127,8 @@ def random_slide_mutation(chromosome):
     # Remove the sub-chromosome from the chromosome
     trimmed_chromosome = trimmed_chromosome[:pos1] + trimmed_chromosome[pos2 + 1:]
 
-    # Select a random position in the chromosome
-    pos3 = random.randint(0, len(trimmed_chromosome))
+    # Select a random position in the chromosome with max distance of 2
+    pos3 = random.randint(max(0, pos1 - 2), min(len(trimmed_chromosome), pos1 + 2))
 
     # Insert the sub-chromosome into the chromosome
     mutated_chromosome = trimmed_chromosome[:pos3] + sub_chromosome + trimmed_chromosome[pos3:]
