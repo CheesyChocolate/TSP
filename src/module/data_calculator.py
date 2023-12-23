@@ -12,6 +12,7 @@
 from scipy.spatial import distance_matrix
 
 
+# Credit: Mahyar Teymournezhad for the idea of storing city distances in a matrix
 # Calculate the distance between two points
 # This function should be separated from 'calculate_distance_matrix'
 # since we need this calculation once per run (not once per generation)

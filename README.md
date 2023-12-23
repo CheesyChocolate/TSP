@@ -6,8 +6,16 @@ simple and module TSP project written in python
 move to the project directory and run the following command:
 
 ```bash
-python core.py <path_to_file>
+python core.py
 ```
+
+* config file
+
+The configuration of project can be done using a `config.yaml` file. The first found `config.yaml` file in the project directory will be used.
+
+All the configuration, even the Input file is stored in the `config.yaml` file.
+
+Currently, all the fields in the `config.yaml` file are required.
 
 * Input file format
 
@@ -24,3 +32,4 @@ EOF
 # Credits
 
 - [Ali Daghighi](https://github.com/alidaghighi) for Cycle Crossover implementation
+- Mahyar Teymournezhad for the idea of storing city distances in a matrix
