@@ -29,6 +29,14 @@ NODE_COORD_SECTION
 EOF
 ```
 
+# Example output
+
+The following image is the output of the project for the `berlin52` dataset.
+
+![Without random subset 2-opt](output/graphs-noTwoOpt.png)
+
+![With random subset 2-opt](output/graphs-withTwoOpt.png)
+
 # Credits
 
 - [Ali Daghighi](https://github.com/alidaghighi) for Cycle Crossover implementation
