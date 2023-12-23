@@ -1,4 +1,11 @@
-# This module is responsible for reading TSP data from files and storing it in
+# read files and configs and return data
+# supported algorithms:
+#   - read_tsp_file
+#   - load_config
+#   - find_file
+
+
+# This function is responsible for reading TSP data from files and storing it in
 # a suitable data structure.
 # The data structure used is a dictionary with the following keys:
 #   - 'NAME': name of the problem
@@ -9,8 +16,7 @@
 #   - 'NODE_COORD_SECTION': a dictionary with the coordinates of each city
 #       - key: city id
 #       - value: tuple with the coordinates (x, y)
-
-def read_tsp_file(file_path):
+def read_tsp_file(file_name=None):
     tsp_data = {
         'NAME': '',
         'COMMENT': '',
@@ -20,6 +26,10 @@ def read_tsp_file(file_path):
         'NODE_COORD_SECTION': {}
     }
 
+    if file_name is not None:
+        file_path = find_file(file_name)
+    else:
+        file_path = find_file(load_config()['tsp_file'])
     with open(file_path, 'r') as file:
         lines = file.readlines()
         reading_nodes = False
@@ -48,3 +58,31 @@ def read_tsp_file(file_path):
                 tsp_data['NODE_COORD_SECTION'][city_id] = (x, y)
 
     return tsp_data
+
+
+# This function is responsible for reading the configuration file and storing
+# @return: a dictionary with the configuration
+def load_config():
+    import yaml
+
+    file_path = find_file('config.yaml')
+    with open(file_path, 'r') as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+    return config
+
+
+# This function is responsible for finding the first file with the given name
+# in the given directory or child directories.
+# @param file_name: name of the file to be searched
+# @return: the path of the file found
+def find_file(file_name):
+    import os
+
+    for root, dirs, files in os.walk("."):
+        for file in files:
+            if file == file_name:
+                return os.path.join(root, file)
+    print('File not found: ' + file_name)
+    print('Please, make sure the file is in the same directory or a child directory of the project root.')
+    print('Exiting...')
+    exit(1)
