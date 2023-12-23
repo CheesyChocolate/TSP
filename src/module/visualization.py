@@ -37,6 +37,7 @@ def plot_tsp_cities(node_cords, chromosome=None, fitness=None):
     plt.show()
 
 
+# Credit: Ali Daghighi
 # Plots the cities and the solution path (if provided) dynamically.
 # @param node_cords: type node_cords dict
 # @param chromosome: type list *optional

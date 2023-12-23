@@ -32,4 +32,5 @@ EOF
 # Credits
 
 - [Ali Daghighi](https://github.com/alidaghighi) for Cycle Crossover implementation
+- [Ali Daghighi](https://github.com/alidaghighi) for plot tsp cities dynamic
 - Mahyar Teymournezhad for the idea of storing city distances in a matrix
