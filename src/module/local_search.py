@@ -41,7 +41,7 @@ def two_opt(chromosome, dist_matrix):
                     improved = True
                     # break # uncomment these 3 lines to improve the performance
             # if improved:
-                # break
+            # break
 
     return chromosome
 
@@ -54,7 +54,9 @@ def two_opt(chromosome, dist_matrix):
 # @param max_iterations: type int
 # @param fitness_threshold: type float
 # @return: Type list
-def partial_two_opt(chromosome, dist_matrix, max_iterations=20, fitness_threshold=0.001):
+def partial_two_opt(
+    chromosome, dist_matrix, max_iterations=20, fitness_threshold=0.001
+):
     # Initial fitness calculation
     current_fitness = fitness(chromosome, dist_matrix)
     n = len(chromosome)  # Number of genes in the chromosome
@@ -94,7 +96,7 @@ def partial_two_opt(chromosome, dist_matrix, max_iterations=20, fitness_threshol
 
         # Apply the best inversion mutation found
         chromosome = inversion_mutation(chromosome, best_i, best_k)
-        current_fitness += best_improvement # Update the current fitness
+        current_fitness += best_improvement  # Update the current fitness
 
     return chromosome
 
@@ -117,13 +119,17 @@ def two_opt_random_subset(parent, dist_matrix):
     start_index = random.randint(0, len(chromosome) - subset_length)
 
     # Extract the random subset from the chromosome
-    subset = chromosome[start_index:start_index + subset_length]
+    subset = chromosome[start_index : start_index + subset_length]
 
     # Optimize the subset using the 2-opt algorithm
     optimized_subset = two_opt(subset, dist_matrix)
 
     # Replace the subset in the original chromosome with the optimized subset
-    new_chromosome = chromosome[:start_index] + optimized_subset + chromosome[start_index + subset_length:]
+    new_chromosome = (
+        chromosome[:start_index]
+        + optimized_subset
+        + chromosome[start_index + subset_length :]
+    )
 
     new_chromosome = untrim(new_chromosome, trimmed_gene)
 
@@ -191,3 +197,128 @@ def three_opt_move(chromosome, dist_matrix, i, j, k):
         return new_chromosome2
     else:
         return new_chromosome3
+
+
+"""
+
+This is a very simple implementation of line segment intersection detection.
+It checks every pair of edges in the TSP tour to see if they intersect.
+It returns the indices of the first pair of edges that intersect.
+
+(me stupid brain)
+
+"""
+
+
+def orientation(P, Q, R):
+    """(Same as before) 0: Collinear, 1: CW, 2: CCW"""
+    val = (Q[0] - P[0]) * (R[1] - P[1]) - (Q[1] - P[1]) * (R[0] - P[0])
+    if val == 0:
+        return 0
+    return 1 if val > 0 else 2
+
+
+def on_segment(P, Q, R):
+    """(Same as before) Checks if Q lies on segment PR"""
+    if (
+        Q[0] <= max(P[0], R[0])
+        and Q[0] >= min(P[0], R[0])
+        and Q[1] <= max(P[1], R[1])
+        and Q[1] >= min(P[1], R[1])
+    ):
+        return True
+    return False
+
+
+def do_intersect(A, B, C, D):
+    """
+    Returns True ONLY if edges intersect strictly or overlapping.
+    It does NOT handle the logic of shared endpoints (that is done in the loop).
+    """
+    o1 = orientation(A, B, C)
+    o2 = orientation(A, B, D)
+    o3 = orientation(C, D, A)
+    o4 = orientation(C, D, B)
+
+    # General Case
+    if o1 != o2 and o3 != o4:
+        return True
+
+    # Special Cases (Collinear)
+    if o1 == 0 and on_segment(A, C, B):
+        return True
+    if o2 == 0 and on_segment(A, D, B):
+        return True
+    if o3 == 0 and on_segment(C, A, D):
+        return True
+    if o4 == 0 and on_segment(C, B, D):
+        return True
+
+    return False
+
+
+def find_first_intersection(chromosome, node_cords):
+    """
+    Scans a TSP tour for the FIRST intersection found.
+
+    Args:
+        chromosome: A list of node IDs representing the tour order.
+                    Example: [1, 3, 2, 4, 5, 1]
+        node_cords: A dictionary mapping node IDs to (x, y) coordinates.
+                    Example: {1: (0, 0), 2: (3, 0), 3: (3, 4), ...}
+    Returns:
+        Tuple (i, j) of edge indices that intersect, or None if no intersections.
+        Edge i connects chromosome[i] -> chromosome[i+1]
+        Edge j connects chromosome[j] -> chromosome[j+1]
+    """
+    # Convert chromosome (node IDs) to coordinate tour
+    tour = [node_cords[node_id] for node_id in chromosome]
+    n = len(tour)
+
+    # Loop through every edge in the tour
+    for i in range(n - 1):
+        # Loop through edges ahead of i
+        # We start at i + 2 to skip the immediate next edge (adjacent)
+        for j in range(i + 2, n - 1):
+            # Skip if edges are adjacent (share a node)
+            if j == i + 1:
+                continue
+
+            # Define the points for Edge 1 (connects i to i+1)
+            p1 = tour[i]
+            q1 = tour[i + 1]
+
+            # Define the points for Edge 2 (connects j to j+1)
+            p2 = tour[j]
+            q2 = tour[j + 1]
+
+            if do_intersect(p1, q1, p2, q2):
+                return (i, j)
+
+    return None
+
+
+def untangle_with_partial_two_opt(chromosome, node_cords, dist_matrix, max_iterations=20):
+    """
+    Detects the first crossing and uses a 2-opt move (reversal) to untangle it.
+    
+    Args:
+        chromosome: A list of node IDs representing the tour order.
+        node_cords: A dictionary mapping node IDs to (x, y) coordinates.
+        dist_matrix: Distance matrix for fitness calculation (unused but kept for API consistency).
+        max_iterations: Unused, kept for API consistency.
+    Returns:
+        The untangled chromosome, or original if no crossings found.
+    """
+    intersection = find_first_intersection(chromosome, node_cords)
+    
+    if intersection is None:
+        return chromosome  # No crossings found
+    
+    i, j = intersection
+    
+    # Apply 2-opt move: reverse the segment between i+1 and j (inclusive)
+    # This removes the crossing by reversing the path between the intersecting edges
+    untangled = chromosome[:i + 1] + chromosome[i + 1:j + 1][::-1] + chromosome[j + 1:]
+    
+    return untangled

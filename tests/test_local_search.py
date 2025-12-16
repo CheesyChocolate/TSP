@@ -3,6 +3,7 @@ import unittest
 from src.module.local_search import two_opt
 from src.module.local_search import partial_two_opt
 from src.module.local_search import two_opt_random_subset
+from src.module.local_search import untangle_with_partial_two_opt
 from src.module.local_search import three_opt
 from src.module.data_calculator import calculate_distance_matrix
 from src.module.data_calculator import fitness
@@ -16,7 +17,7 @@ class TestLocalSearch(unittest.TestCase):
             2: (25.0, 185.0),
             3: (345.0, 750.0),
             4: (745.0, 225.0),
-            5: (475.0, 475.0)
+            5: (475.0, 475.0),
         }
 
         # generate the matrix
@@ -40,13 +41,7 @@ class TestLocalSearch(unittest.TestCase):
 
     def test_two_opt2(self):
         # Define a simple test case with a known optimal solution
-        node_cords = {
-            1: (0, 0),
-            2: (3, 0),
-            3: (3, 4),
-            4: (0, 4),
-            5: (1, 1)
-        }
+        node_cords = {1: (0, 0), 2: (3, 0), 3: (3, 4), 4: (0, 4), 5: (1, 1)}
 
         # Initial chromosome
         chromosome = [1, 3, 2, 4, 5, 1]
@@ -69,70 +64,65 @@ class TestLocalSearch(unittest.TestCase):
 
     def test_partial_two_opt2(self):
         # Define a simple test case with a known optimal solution
-        node_cords = {
-            1: (0, 0),
-            2: (3, 0),
-            3: (3, 4),
-            4: (0, 4),
-            5: (1, 1)
-        }
+        node_cords = {1: (0, 0), 2: (3, 0), 3: (3, 4), 4: (0, 4), 5: (1, 1)}
 
         # generate the matrix
         dist_matrix = calculate_distance_matrix(node_cords)
 
-        # Initial chromosome
+        # Initial chromosome (with crossing edges)
         chromosome = [1, 3, 2, 4, 5, 1]
 
-        # Apply the partial 2-opt algorithm
-        result_chromosome = partial_two_opt(chromosome, dist_matrix, max_iterations=100, fitness_threshold=0.001)
+        # Untangle crossing edges and optimize with partial 2-opt
+        result_chromosome = untangle_with_partial_two_opt(
+            chromosome, node_cords, dist_matrix, max_iterations=100
+        )
 
         # Ensure the resulting chromosome has the same number of genes
         self.assertEqual(len(chromosome), len(result_chromosome))
 
-        # Calculate fitness before and after 2-opt
+        # Calculate fitness before and after optimization
         initial_fitness = fitness(chromosome, dist_matrix)
         result_fitness = fitness(result_chromosome, dist_matrix)
 
         # Assert that the fitness after optimization is better than before
         self.assertLess(initial_fitness, result_fitness)
 
-        def test_two_opt_random_subset(self):
-            # Sample NODE_COORD_SECTION dictionary
-            node_cords = {
-                    1: (565.0, 575.0),
-                    2: (25.0, 185.0),
-                    3: (345.0, 750.0),
-                    4: (745.0, 225.0),
-                    5: (475.0, 475.0),
-                    6: (685.0, 575.0),
-                    7: (685.0, 575.0),
-                    8: (685.0, 575.0)
-                    }
+    def test_two_opt_random_subset(self):
+        # Sample NODE_COORD_SECTION dictionary
+        node_cords = {
+            1: (565.0, 575.0),
+            2: (25.0, 185.0),
+            3: (345.0, 750.0),
+            4: (745.0, 225.0),
+            5: (475.0, 475.0),
+            6: (685.0, 575.0),
+            7: (685.0, 575.0),
+            8: (685.0, 575.0),
+        }
 
-            # generate the matrix
-            dist_matrix = calculate_distance_matrix(node_cords)
+        # generate the matrix
+        dist_matrix = calculate_distance_matrix(node_cords)
 
-            # Sample chromosome (city IDs in a random order)
-            chromosome = [7, 8, 3, 4, 5, 6, 1, 2]
+        # Sample chromosome (city IDs in a random order)
+        chromosome = [7, 8, 3, 4, 5, 6, 1, 2]
 
-            # Perform the 2-opt local search
-            improved_chromosome = two_opt_random_subset(chromosome, dist_matrix)
-            print(improved_chromosome)
-            print(chromosome)
+        # Perform the 2-opt local search
+        improved_chromosome = two_opt_random_subset(chromosome, dist_matrix)
+        print(improved_chromosome)
+        print(chromosome)
 
-            # Ensure the resulting chromosome has the same number of genes
-            self.assertEqual(len(chromosome), len(improved_chromosome))
+        # Ensure the resulting chromosome has the same number of genes
+        self.assertEqual(len(chromosome), len(improved_chromosome))
 
-            # Calculate fitness for initial and improved chromosomes
-            initial_fitness = fitness(chromosome, dist_matrix)
-            improved_fitness = fitness(improved_chromosome, dist_matrix)
+        # Calculate fitness for initial and improved chromosomes
+        initial_fitness = fitness(chromosome, dist_matrix)
+        improved_fitness = fitness(improved_chromosome, dist_matrix)
 
-            # Ensure the improved solution has better fitness (higher fitness)
-            self.assertLessEqual(initial_fitness, improved_fitness)
+        # Ensure the improved solution has better fitness (higher fitness)
+        self.assertLessEqual(initial_fitness, improved_fitness)
 
 
 class TestThreeOpt(unittest.TestCase):
-
     def test_three_opt_basic(self):
         # Create a basic test case with a known input and expected output
         node_cords = {
@@ -144,7 +134,7 @@ class TestThreeOpt(unittest.TestCase):
             6: (2, 2),
             7: (1, 3),
             8: (2, 3),
-            9: (1, 2)
+            9: (1, 2),
         }
 
         # generate the matrix
@@ -174,5 +164,5 @@ class TestThreeOpt(unittest.TestCase):
         self.assertEqual(set(chromosome), set(result_chromosome))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

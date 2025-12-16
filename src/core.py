@@ -9,6 +9,7 @@ from module.file_reader import read_tsp_file
 from module.file_reader import load_config
 from module.local_search import two_opt as three_opt # use 2-opt while testing(can be changed to 3-opt)
 from module.local_search import two_opt_random_subset
+from module.local_search import untangle_with_partial_two_opt
 from module.mutation import generate_random_population
 from module.mutation import insert_mutation
 from module.mutation import random_slide_mutation
@@ -21,6 +22,9 @@ from module.visualization import print_chromosome
 
 
 def main():
+    # Set fixed seed for reproducibility
+    random.seed(42)
+    
     config_data = load_config()
 
     # get the tsp file path from the config file
@@ -101,7 +105,11 @@ def main():
             # only add the best child to the next generation
             child = max([child1, child2, child3, child4], key=lambda x: fitness(x, distance_matrix))
 
-            # apply 2-opt on the child
+            # probabilistically untangle crossing edges using partial 2-opt
+            if random.random() < config_data['untangle_probability']:
+                child = untangle_with_partial_two_opt(child, node_cords, distance_matrix)
+
+            # apply 2-opt on the child for further optimization
             if config_data['two_opt_random_subset']:
                 child = two_opt_random_subset(child, distance_matrix)
 
